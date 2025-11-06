@@ -52,7 +52,7 @@ function addNewBlogPost()
         displayBlogPosts();
         document.getElementById("post-title").value = "";
         document.getElementById("post-content").value = "";
-        clearDraft(); // Clear the saved draft after posting
+        clearDraft(); 
     }
 }
 
@@ -70,32 +70,43 @@ function displayBlogPosts()
     for (let index = 0; index < blogPosts.length; index++) 
     {
         const post = blogPosts[index];
-        // Create the HTML this posr using the newPost object
+        // *****NEW CODE - creates elements safely without innerHTML
         const postDiv = document.createElement("div");
         postDiv.className = "blog-post";
-        postDiv.innerHTML = `
-        <h2>${post.title}</h2>
-        <p><em>Posted on: ${post.dateCreated}</em></p>
-        <p>${post.content}</p>
-        <button onclick="editBlogPost(${post.id})">Edit</button>
-        <button onclick="deleteBlogPost(${post.id})">Delete</button>
-        <hr>
-        `;
-    blogContainer.appendChild(postDiv);
+        const title = document.createElement("h2");
+        title.textContent = post.title;
+        const date = document.createElement("p");
+        const dateEm = document.createElement("em");
+        dateEm.textContent = `Posted on: ${post.dateCreated}`;
+        date.appendChild(dateEm);
+        const content = document.createElement("p");
+        content.textContent = post.content;
+        content.style.whiteSpace = "pre-wrap";
+        const editBtn = document.createElement("button");
+        editBtn.textContent = "Edit";
+        editBtn.onclick = function() { editBlogPost(post.id); };
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";
+        deleteBtn.onclick = function() { deleteBlogPost(post.id); };
+        
+        // Append all elements
+        postDiv.appendChild(title);
+        postDiv.appendChild(date);
+        postDiv.appendChild(content);
+        postDiv.appendChild(editBtn);
+        postDiv.appendChild(deleteBtn);
+        
+        blogContainer.appendChild(postDiv);
     }
 }
 
 function loadBlogPosts()
 {
-    console.log("Loading blog posts from localStorage...");
     const storedPosts = localStorage.getItem("blogPosts");
-    console.log("Stored posts:", storedPosts);
     if (storedPosts) 
     {
         blogPosts = JSON.parse(storedPosts);
-        console.log("Parsed blog posts:", blogPosts);
         displayBlogPosts();
-        console.log("Blog posts displayed.");
     }
 }
 window.addEventListener("DOMContentLoaded", loadBlogPosts);
