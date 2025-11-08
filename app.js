@@ -5,6 +5,8 @@ let blogPosts = [];
 let currentEditingPostId = null;
 let isAuthenticated = false;
 let clickCount = 0;
+const { createClient } = supabase;
+const supabaseClient = createClient(config.supabaseUrl, config.supabaseAnonKey);
 
 async function checkAuthStatus() 
 {
