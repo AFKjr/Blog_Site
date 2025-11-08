@@ -1,9 +1,117 @@
-// Blog functionality
+// Blog functionality with Supabase
 
 // The array for holding all blog posts
 let blogPosts = [];
-
 let currentEditingPostId = null;
+let isAuthenticated = false;
+let clickCount = 0;
+
+async function checkAuthStatus() 
+{
+    const { data: { session } } = await supabase.auth.getSession();
+    isAuthenticated = !!session;
+    updateUIForAuthStatus();
+    return isAuthenticated;
+}
+
+function updateUIForAuthStatus() 
+{
+    const addPostSection = document.querySelector('.add-post');
+    const logoutContainer = document.getElementById('logout-container');
+    
+    if (isAuthenticated) 
+        {
+        if (addPostSection) addPostSection.style.display = 'block';
+        if (logoutContainer) logoutContainer.style.display = 'block';
+    } else 
+    {
+        if (addPostSection) addPostSection.style.display = 'none';
+        if (logoutContainer) logoutContainer.style.display = 'none';
+    }
+    displayBlogPosts();
+}
+
+async function loginAdmin() 
+{
+    const email = document.getElementById('admin-email').value;
+    const password = document.getElementById('admin-password').value;
+    const errorDiv = document.getElementById('login-error');
+    
+    if (!email || !password) 
+    {
+        errorDiv.textContent = 'Please enter both email and password';
+        return;
+    }
+    
+    const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password
+    });
+    
+    if (error) 
+    {
+        errorDiv.textContent = error.message;
+    } else 
+    {
+        errorDiv.textContent = '';
+        document.getElementById('login-modal').style.display = 'none';
+        document.getElementById('admin-email').value = '';
+        document.getElementById('admin-password').value = '';
+        await checkAuthStatus();
+    }
+}
+
+async function logoutAdmin() 
+{
+    await supabase.auth.signOut();
+    await checkAuthStatus();
+}
+
+
+function setupLoginModal() 
+{
+    const loginModal = document.getElementById('login-modal');
+    const closeLogin = document.querySelector('.close-login');
+    const loginBtn = document.getElementById('login-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const siteTitle = document.getElementById('site-title');
+
+    if (siteTitle) {
+        siteTitle.addEventListener('click', () => {
+            clickCount++;
+            if (clickCount === 5) {
+                loginModal.style.display = 'block';
+                clickCount = 0;
+            }
+            setTimeout(() => { clickCount = 0; }, 2000);
+        });
+    }
+    
+    if (closeLogin) 
+    {
+        closeLogin.onclick = () => {
+            loginModal.style.display = 'none';
+        };
+    }
+    
+    if (loginBtn) 
+    {
+        loginBtn.onclick = loginAdmin;
+    }
+    
+    if (logoutBtn) 
+    {
+        logoutBtn.onclick = logoutAdmin;
+    }
+    ['admin-email', 'admin-password'].forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') loginAdmin();
+            });
+        }
+    });
+}
 
 function daysSinceStart() 
 {
@@ -28,8 +136,7 @@ function displayDaysSinceStart()
 
 window.addEventListener("DOMContentLoaded", displayDaysSinceStart);
 
-
-function addNewBlogPost() 
+async function addNewBlogPost() 
 {
     const title = document.getElementById("post-title").value;
     const content = document.getElementById("post-content").value;
@@ -37,81 +144,104 @@ function addNewBlogPost()
     if (title.trim() === "" || content.trim() === "")
     {
         alert("Please fill in both the title and content fields.");
-    }else
-    {
-        // Create new blog post object
-        const newPost = 
-        {
-            title: title,
-            content: content,
-            dateCreated: new Date().toLocaleDateString(),
-            id: Math.floor(Math.random() * 1000000)
-        }
-        blogPosts.push(newPost);
-        saveBlogPosts();
-        displayBlogPosts();
+        return;
+    }
+    
+    if (!isAuthenticated) {
+        alert("You must be logged in to add posts.");
+        return;
+    }
+
+    // Insert into Supabase
+    const { data, error } = await supabase
+        .from('blog_posts')
+        .insert([
+            { 
+                title: title, 
+                content: content 
+            }
+        ])
+        .select();
+    
+    if (error) {
+        console.error('Error adding post:', error);
+        alert('Error adding post: ' + error.message);
+    } else {
         document.getElementById("post-title").value = "";
         document.getElementById("post-content").value = "";
-        clearDraft(); 
+        clearDraft();
+        await loadBlogPosts();
     }
 }
 
-function saveBlogPosts() 
+async function loadBlogPosts()
 {
-    localStorage.setItem("blogPosts", JSON.stringify(blogPosts));
+    const { data, error } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .order('date_created', { ascending: false });
+    
+    if (error) {
+        console.error('Error loading posts:', error);
+    } else {
+        blogPosts = data || [];
+        displayBlogPosts();
+    }
 }
 
 function displayBlogPosts()
 {
     const blogContainer = document.getElementById("blog-posts");
 
-    //Get blog container
+    if (!blogContainer) return;
+    
     blogContainer.innerHTML = "";
     for (let index = 0; index < blogPosts.length; index++) 
     {
         const post = blogPosts[index];
-        // *****NEW CODE - creates elements safely without innerHTML
+        
         const postDiv = document.createElement("div");
         postDiv.className = "blog-post";
+        
         const title = document.createElement("h2");
         title.textContent = post.title;
+        
         const date = document.createElement("p");
         const dateEm = document.createElement("em");
-        dateEm.textContent = `Posted on: ${post.dateCreated}`;
+        const postDate = new Date(post.date_created).toLocaleDateString();
+        dateEm.textContent = `Posted on: ${postDate}`;
+        if (post.date_edited) {
+            const editDate = new Date(post.date_edited).toLocaleDateString();
+            dateEm.textContent += ` (Edited: ${editDate})`;
+        }
         date.appendChild(dateEm);
+        
         const content = document.createElement("p");
         content.textContent = post.content;
         content.style.whiteSpace = "pre-wrap";
-        const editBtn = document.createElement("button");
-        editBtn.textContent = "Edit";
-        editBtn.onclick = function() { editBlogPost(post.id); };
-        const deleteBtn = document.createElement("button");
-        deleteBtn.textContent = "Delete";
-        deleteBtn.onclick = function() { deleteBlogPost(post.id); };
         
-        // Append all elements
         postDiv.appendChild(title);
         postDiv.appendChild(date);
         postDiv.appendChild(content);
-        postDiv.appendChild(editBtn);
-        postDiv.appendChild(deleteBtn);
+        
+    
+        if (isAuthenticated) {
+            const editBtn = document.createElement("button");
+            editBtn.textContent = "Edit";
+            editBtn.onclick = function() { editBlogPost(post.id); };
+            
+            const deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "Delete";
+            deleteBtn.onclick = function() { deleteBlogPost(post.id); };
+            
+            postDiv.appendChild(editBtn);
+            postDiv.appendChild(deleteBtn);
+        }
         
         blogContainer.appendChild(postDiv);
     }
 }
 
-function loadBlogPosts()
-{
-    const storedPosts = localStorage.getItem("blogPosts");
-    if (storedPosts) 
-    {
-        blogPosts = JSON.parse(storedPosts);
-        displayBlogPosts();
-    }
-}
-window.addEventListener("DOMContentLoaded", loadBlogPosts);
-
-// *******
 function setupAutoSaveDraft() 
 {
     const postTitle = document.getElementById("post-title");
@@ -145,10 +275,13 @@ function clearDraft()
 
 window.addEventListener("DOMContentLoaded", setupAutoSaveDraft);
 
-// *******
-
-function editBlogPost(id)
+async function editBlogPost(id)
 {
+    if (!isAuthenticated) {
+        alert("You must be logged in to edit posts.");
+        return;
+    }
+    
     const editedPost = blogPosts.find(post => post.id === id);
     if (editedPost)
     {
@@ -159,47 +292,78 @@ function editBlogPost(id)
         const editTitleInput = document.getElementById("edit-post-title");
         const editContentTextarea = document.getElementById("edit-post-content"); 
 
-        // Populate modal with current post data
+        
         editTitleInput.value = editedPost.title;
         editContentTextarea.value = editedPost.content;
         modal.style.display = "block";
         currentEditingPostId = id;
 
-        //Click handlers
+
         closeButton.onclick = function() {
-        modal.style.display = "none";  
+            modal.style.display = "none";  
         }
         cancelChangesBtn.onclick = function() {
-        modal.style.display = "none";
+            modal.style.display = "none";
         }
-        saveChangesBtn.onclick = function() {
-            saveEditedPost();
+        saveChangesBtn.onclick = async function() {
+            await saveEditedPost();
             modal.style.display = "none";
         }
     }
 }
 
-function saveEditedPost()
+async function saveEditedPost()
 {
     const editTitleInput = document.getElementById("edit-post-title");
     const editContentTextarea = document.getElementById("edit-post-content");
-    const editedPost = blogPosts.find(post => post.id === currentEditingPostId);
-    if (editedPost) 
-    {
-        editedPost.title = editTitleInput.value;
-        editedPost.content = editContentTextarea.value;
-        editedPost.dateEdited = new Date().toLocaleDateString();
-        saveBlogPosts();
-        displayBlogPosts();
+    
+    const { data, error } = await supabase
+        .from('blog_posts')
+        .update({ 
+            title: editTitleInput.value,
+            content: editContentTextarea.value,
+            date_edited: new Date().toISOString()
+        })
+        .eq('id', currentEditingPostId)
+        .select();
+    
+    if (error) {
+        console.error('Error updating post:', error);
+        alert('Error updating post: ' + error.message);
+    } else {
+        await loadBlogPosts();
     }
 }
 
-function deleteBlogPost(id)
+async function deleteBlogPost(id)
 {
+    if (!isAuthenticated) {
+        alert("You must be logged in to delete posts.");
+        return;
+    }
+    
     if (confirm("Are you sure you want to delete this post?"))
     {
-        blogPosts = blogPosts.filter(post => post.id !== id);
-        saveBlogPosts();
-        displayBlogPosts();
+        const { error } = await supabase
+            .from('blog_posts')
+            .delete()
+            .eq('id', id);
+        
+        if (error) {
+            console.error('Error deleting post:', error);
+            alert('Error deleting post: ' + error.message);
+        } else {
+            await loadBlogPosts();
+        }
     }
 }
+
+
+async function initializeApp() 
+{
+    setupLoginModal();
+    await checkAuthStatus();
+    await loadBlogPosts();
+}
+
+window.addEventListener("DOMContentLoaded", initializeApp);
