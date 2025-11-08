@@ -5,8 +5,11 @@ let blogPosts = [];
 let currentEditingPostId = null;
 let isAuthenticated = false;
 let clickCount = 0;
+const supabaseUrl = 'https://wqpznafrhrnuwfxqpvni.supabase.co';
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndxcHpuYWZyaHJudXdmeHFwdm5pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1NTYwMTEsImV4cCI6MjA3ODEzMjAxMX0.k5UR5h4nZyBg8x2yLHQqomam25-evkba4hv541_2fj4';
+
 const { createClient } = supabase;
-const supabaseClient = createClient(config.supabaseUrl, config.supabaseAnonKey);
+const supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
 
 async function checkAuthStatus() 
 {
