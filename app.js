@@ -8,7 +8,7 @@ let clickCount = 0;
 
 async function checkAuthStatus() 
 {
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await supabaseClient.auth.getSession();
     isAuthenticated = !!session;
     updateUIForAuthStatus();
     return isAuthenticated;
@@ -43,7 +43,7 @@ async function loginAdmin()
         return;
     }
     
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
         email: email,
         password: password
     });
@@ -63,7 +63,7 @@ async function loginAdmin()
 
 async function logoutAdmin() 
 {
-    await supabase.auth.signOut();
+    await supabaseClient.auth.signOut();
     await checkAuthStatus();
 }
 
@@ -154,7 +154,7 @@ async function addNewBlogPost()
     }
 
     // Insert into Supabase
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
         .from('blog_posts')
         .insert([
             { 
@@ -177,7 +177,7 @@ async function addNewBlogPost()
 
 async function loadBlogPosts()
 {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
         .from('blog_posts')
         .select('*')
         .order('date_created', { ascending: false });
@@ -318,7 +318,7 @@ async function saveEditedPost()
     const editTitleInput = document.getElementById("edit-post-title");
     const editContentTextarea = document.getElementById("edit-post-content");
     
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
         .from('blog_posts')
         .update({ 
             title: editTitleInput.value,
@@ -345,7 +345,7 @@ async function deleteBlogPost(id)
     
     if (confirm("Are you sure you want to delete this post?"))
     {
-        const { error } = await supabase
+        const { error } = await supabaseClient
             .from('blog_posts')
             .delete()
             .eq('id', id);

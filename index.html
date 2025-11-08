@@ -86,7 +86,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
     <script>
-        const supabase = supabase.createClient(config.supabaseUrl, config.supabaseAnonKey);
+        const { createClient } = supabase;
+        const supabaseClient = createClient(config.supabaseUrl, config.supabaseAnonKey);
     </script>
     <script src="app.js"></script>
     
