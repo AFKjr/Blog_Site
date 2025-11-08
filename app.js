@@ -74,11 +74,12 @@ function setupLoginModal()
     const closeLogin = document.querySelector('.close-login');
     const loginBtn = document.getElementById('login-btn');
     const logoutBtn = document.getElementById('logout-btn');
-    const siteTitle = document.getElementById('site-title');
+    const headerContainer = document.getElementById('header-container');
 
-    if (siteTitle) {
-        siteTitle.addEventListener('click', () => {
+    if (headerContainer) {
+        headerContainer.addEventListener('click', () => {
             clickCount++;
+            console.log('Click count:', clickCount); // Debug log
             if (clickCount === 5) {
                 loginModal.style.display = 'block';
                 clickCount = 0;
