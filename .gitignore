@@ -2,9 +2,6 @@
 .env
 .env.local
 
-# Configuration (contains API keys)
-config.js
-
 # Dependencies
 node_modules/
 
