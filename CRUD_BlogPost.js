@@ -90,13 +90,18 @@ function displayBlogPosts()
         }
         date.appendChild(dateEm);
         
+        const contentWrapper = document.createElement("div");
+        contentWrapper.className = "post-content";
+        
         const content = document.createElement("p");
         content.textContent = post.content;
         content.style.whiteSpace = "pre-wrap";
         
+        contentWrapper.appendChild(content);
+        
         postDiv.appendChild(title);
         postDiv.appendChild(date);
-        postDiv.appendChild(content);
+        postDiv.appendChild(contentWrapper);
         
     
         if (getAuthStatus()) {
