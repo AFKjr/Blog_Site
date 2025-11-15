@@ -1,44 +1,62 @@
-// CRUD operations for blog posts
+// CRUD operations for blog posts with security improvements
 
 import { supabaseClient } from './supabaseImport.js';
 import { getAuthStatus } from './authCheck.js';
+import { validateBlogPost } from './inputValidation.js';
+import { postRateLimiter } from './rateLimiting.js';
 
-// The array for holding all blog posts
 let blogPosts = [];
 let currentEditingPostId = null;
 
-// Create - Add new blog post
+/**
+ * Create - Add new blog post (for public interface - deprecated in favor of admin panel)
+ */
 async function addNewBlogPost() 
 {
     const title = document.getElementById("post-title").value;
     const content = document.getElementById("post-content").value;
-
-    if (title.trim() === "" || content.trim() === "")
-    {
-        alert("Please fill in both the title and content fields.");
-        return;
-    }
     
-    if (!getAuthStatus()) {
+    if (!getAuthStatus()) 
+    {
         alert("You must be logged in to add posts.");
         return;
     }
+    
+    // Check rate limiting
+    const rateLimitCheck = postRateLimiter.recordAttempt();
+    if (!rateLimitCheck.allowed) 
+    {
+        alert(rateLimitCheck.reason);
+        return;
+    }
+    
+    // Validate and sanitize input
+    const validation = validateBlogPost(title, content);
+    
+    if (!validation.isValid) 
+    {
+        alert('Validation errors:\n' + validation.errors.join('\n'));
+        return;
+    }
 
-    // Insert into Supabase
+    // Insert into Supabase with sanitized data
     const { data, error } = await supabaseClient
         .from('blog_posts')
         .insert([
             { 
-                title: title, 
-                content: content 
+                title: validation.sanitizedTitle, 
+                content: validation.sanitizedContent 
             }
         ])
         .select();
     
-    if (error) {
+    if (error) 
+    {
         console.error('Error adding post:', error);
-        alert('Error adding post: ' + error.message);
-    } else {
+        alert('Failed to add post. Please try again.');
+    } 
+    else 
+    {
         document.getElementById("post-title").value = "";
         document.getElementById("post-content").value = "";
         clearDraft();
@@ -46,7 +64,9 @@ async function addNewBlogPost()
     }
 }
 
-// Read - Load all blog posts
+/**
+ * Read - Load all blog posts
+ */
 async function loadBlogPosts()
 {
     const { data, error } = await supabaseClient
@@ -54,15 +74,20 @@ async function loadBlogPosts()
         .select('*')
         .order('date_created', { ascending: false });
     
-    if (error) {
+    if (error) 
+    {
         console.error('Error loading posts:', error);
-    } else {
+    } 
+    else 
+    {
         blogPosts = data || [];
         displayBlogPosts();
     }
 }
 
-// Display blog posts
+/**
+ * Display blog posts with escaped HTML
+ */
 function displayBlogPosts()
 {
     const blogContainer = document.getElementById("blog-posts");
@@ -70,6 +95,13 @@ function displayBlogPosts()
     if (!blogContainer) return;
     
     blogContainer.innerHTML = "";
+    
+    if (blogPosts.length === 0) 
+    {
+        blogContainer.innerHTML = '<p style="color:#718096;text-align:center;padding:2rem;">No posts yet. Check back soon!</p>';
+        return;
+    }
+    
     for (let index = 0; index < blogPosts.length; index++) 
     {
         const post = blogPosts[index];
@@ -78,13 +110,14 @@ function displayBlogPosts()
         postDiv.className = "blog-post";
         
         const title = document.createElement("h2");
-        title.textContent = post.title;
+        title.textContent = post.title; // textContent auto-escapes
         
         const date = document.createElement("p");
         const dateEm = document.createElement("em");
         const postDate = new Date(post.date_created).toLocaleDateString();
         dateEm.textContent = `Posted on: ${postDate}`;
-        if (post.date_edited) {
+        if (post.date_edited) 
+        {
             const editDate = new Date(post.date_edited).toLocaleDateString();
             dateEm.textContent += ` (Edited: ${editDate})`;
         }
@@ -94,7 +127,7 @@ function displayBlogPosts()
         contentWrapper.className = "post-content";
         
         const content = document.createElement("p");
-        content.textContent = post.content;
+        content.textContent = post.content; // textContent auto-escapes
         content.style.whiteSpace = "pre-wrap";
         
         contentWrapper.appendChild(content);
@@ -103,8 +136,8 @@ function displayBlogPosts()
         postDiv.appendChild(date);
         postDiv.appendChild(contentWrapper);
         
-    
-        if (getAuthStatus()) {
+        if (getAuthStatus()) 
+        {
             const editBtn = document.createElement("button");
             editBtn.textContent = "Edit";
             editBtn.onclick = function() { editBlogPost(post.id); };
@@ -121,10 +154,13 @@ function displayBlogPosts()
     }
 }
 
-// Update - Edit existing blog post
+/**
+ * Update - Edit existing blog post
+ */
 async function editBlogPost(id)
 {
-    if (!getAuthStatus()) {
+    if (!getAuthStatus()) 
+    {
         alert("You must be logged in to edit posts.");
         return;
     }
@@ -139,7 +175,6 @@ async function editBlogPost(id)
         const editTitleInput = document.getElementById("edit-post-title");
         const editContentTextarea = document.getElementById("edit-post-content"); 
 
-        
         editTitleInput.value = editedPost.title;
         editContentTextarea.value = editedPost.content;
         modal.style.display = "block";
@@ -158,34 +193,51 @@ async function editBlogPost(id)
     }
 }
 
-// Save edited post
+/**
+ * Save edited post with validation
+ */
 async function saveEditedPost()
 {
     const editTitleInput = document.getElementById("edit-post-title");
     const editContentTextarea = document.getElementById("edit-post-content");
     
+    // Validate and sanitize
+    const validation = validateBlogPost(editTitleInput.value, editContentTextarea.value);
+    
+    if (!validation.isValid) 
+    {
+        alert('Validation errors:\n' + validation.errors.join('\n'));
+        return;
+    }
+    
     const { data, error } = await supabaseClient
         .from('blog_posts')
         .update({ 
-            title: editTitleInput.value,
-            content: editContentTextarea.value,
+            title: validation.sanitizedTitle,
+            content: validation.sanitizedContent,
             date_edited: new Date().toISOString()
         })
         .eq('id', currentEditingPostId)
         .select();
     
-    if (error) {
+    if (error) 
+    {
         console.error('Error updating post:', error);
-        alert('Error updating post: ' + error.message);
-    } else {
+        alert('Failed to update post. Please try again.');
+    } 
+    else 
+    {
         await loadBlogPosts();
     }
 }
 
-// Delete - Remove blog post
+/**
+ * Delete - Remove blog post
+ */
 async function deleteBlogPost(id)
 {
-    if (!getAuthStatus()) {
+    if (!getAuthStatus()) 
+    {
         alert("You must be logged in to delete posts.");
         return;
     }
@@ -197,20 +249,28 @@ async function deleteBlogPost(id)
             .delete()
             .eq('id', id);
         
-        if (error) {
+        if (error) 
+        {
             console.error('Error deleting post:', error);
-            alert('Error deleting post: ' + error.message);
-        } else {
+            alert('Failed to delete post. Please try again.');
+        } 
+        else 
+        {
             await loadBlogPosts();
         }
     }
 }
 
-// Draft management functions
+/**
+ * Draft management functions
+ */
 function setupAutoSaveDraft() 
 {
     const postTitle = document.getElementById("post-title");
     const postContent = document.getElementById("post-content");
+    
+    if (!postTitle || !postContent) return;
+    
     const savedTitle = localStorage.getItem("draftTitle");
     const savedContent = localStorage.getItem("draftContent");
     

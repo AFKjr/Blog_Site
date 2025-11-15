@@ -1,18 +1,21 @@
-// Blog functionality with Supabase
+// Blog functionality for public view
+// Admin functions moved to admin.html
 
-import { checkAuthStatus, setupLoginModal, getAuthStatus } from './authCheck.js';
+import { checkAuthStatus, getAuthStatus, logoutAdmin } from './authCheck.js';
 import { 
-    addNewBlogPost, 
     loadBlogPosts, 
-    displayBlogPosts, 
-    setupAutoSaveDraft 
+    displayBlogPosts
 } from './CRUD_BlogPost.js';
 
 // Listen for auth status changes and refresh the display
 window.addEventListener('authStatusChanged', () => {
     displayBlogPosts();
+    updateLogoutButton();
 });
 
+/**
+ * Calculates days since starting JavaScript
+ */
 function daysSinceStart() 
 {
     const startDate = "11/01/2025";
@@ -23,6 +26,9 @@ function daysSinceStart()
     return diffDays;
 }
 
+/**
+ * Displays the day counter
+ */
 function displayDaysSinceStart() 
 {
     const days = daysSinceStart();
@@ -34,17 +40,41 @@ function displayDaysSinceStart()
     }
 }
 
-window.addEventListener("DOMContentLoaded", displayDaysSinceStart);
-
-async function initializeApp() 
+/**
+ * Shows/hides logout button based on auth status
+ */
+function updateLogoutButton() 
 {
-    setupLoginModal();
-    await checkAuthStatus();
-    await loadBlogPosts();
+    const logoutContainer = document.getElementById('logout-container');
+    if (logoutContainer) {
+        logoutContainer.style.display = getAuthStatus() ? 'block' : 'none';
+    }
 }
 
-window.addEventListener("DOMContentLoaded", initializeApp);
-window.addEventListener("DOMContentLoaded", setupAutoSaveDraft);
+/**
+ * Sets up logout button click handler
+ */
+function setupLogoutButton() 
+{
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+            await logoutAdmin();
+        });
+    }
+}
 
-// Make addNewBlogPost available globally for the HTML onclick attribute
-window.addNewBlogPost = addNewBlogPost;
+/**
+ * Initialize the application
+ */
+async function initializeApp() 
+{
+    await checkAuthStatus();
+    await loadBlogPosts();
+    setupLogoutButton();
+    updateLogoutButton();
+}
+
+// Initialize when DOM is ready
+window.addEventListener("DOMContentLoaded", displayDaysSinceStart);
+window.addEventListener("DOMContentLoaded", initializeApp);
