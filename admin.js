@@ -15,6 +15,15 @@ function showError(elementId, message)
     }
 }
 
+function clearError(elementId)
+{
+    const errorElement = document.getElementById(elementId);
+    if (errorElement)
+    {
+        errorElement.textContent = '';
+    }
+}
+
 async function handleLogin(event)
 {
     event.preventDefault();
