@@ -39,60 +39,60 @@ async function handleLogin(event)
 
         return;
     }
-}
 
-const email = document.getElementById('admin-email').value.trim();
-const password = document.getElementById('admin-password').value;
+    const email = document.getElementById('admin-email').value.trim();
+    const password = document.getElementById('admin-password').value;
 
-clearError('login-error');
+    clearError('login-error');
 
-if (!email || !password)
-{
-    showError('login-error', 'Email and password are required.');
-    return;
-}
-
-const LoginButton = document.getElementById('login-btn');
-LoginButton.disabled = true;
-LoginButton.textContent = 'Logging in...';
-
-try
-{
-    const { data, error } = supabaseClient.auth.signInWithPassword({
-        email: email,
-        password: password
-    });
-
-    if (error) 
+    if (!email || !password)
     {
-        throw error;
+        showError('login-error', 'Email and password are required.');
+        return;
     }
 
-    // Suscessful login - reset rate limiter
+    const LoginButton = document.getElementById('login-btn');
+    LoginButton.disabled = true;
+    LoginButton.textContent = 'Logging in...';
 
-    loginRateLimiter.reset();
+    try
+    {
+        const { data, error } = supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
 
-    // clear form
+        if (error) 
+        {
+            throw error;
+        }
 
-    document.getElementById('admin-email').value = '';
-    document.getElementById('admin-password').value = '';
+        // Suscessful login - reset rate limiter
 
-    // Show admin panel
+        loginRateLimiter.reset();
 
-    document.getElementById('login-card').style.display = 'none';
-    document.getElementById('admin-panel').style.display = 'block';
+        // clear form
 
-    //Load posts
+        document.getElementById('admin-email').value = '';
+        document.getElementById('admin-password').value = '';
 
-    await loadBlogPosts();
+        // Show admin panel
 
-} catch (error) {
+        document.getElementById('login-card').style.display = 'none';
+        document.getElementById('admin-panel').style.display = 'block';
+
+        //Load posts
+
+        await loadBlogPosts();
+
+    } catch (error) {
         console.error('Login error:', error);
         showError('login-error', 'Invalid email or password');
     } finally {
         loginButton.disabled = false;
         loginButton.textContent = 'Login';
     }
+}
 
 
 /**
