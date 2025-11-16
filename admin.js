@@ -16,7 +16,7 @@ function showError(elementId, message)
     const errorElement = document.getElementById(elementId);
     if (errorElement)
     {
-        errorElement.textContent = ';'
+        errorElement.textContent = message;
     }
 }
 
