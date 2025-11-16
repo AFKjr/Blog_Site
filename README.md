@@ -24,8 +24,6 @@ A simple, interactive blog application built with vanilla HTML, CSS, and JavaScr
 
 ## Future Enhancements
 
-- User authentication
-- Database integration
 - Rich text editing
 - Comments system
 - Categories/tags for posts
