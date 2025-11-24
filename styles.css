@@ -4,7 +4,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    background: #194aad;
+    background-color: white;
     margin: 0;
     padding: 0;
     display: flex;
@@ -13,8 +13,10 @@ body {
     justify-content: center;
     min-height: 100vh;
 }
-.container {
-    background: #fff;
+.main-title {
+    max-width: 800px;
+    margin: 2rem auto;
+    background-color: transparent;
     padding: 2rem 3rem;
     border-radius: 12px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.08);
@@ -72,31 +74,197 @@ cursor: pointer;
 color: #000;
 }
 
+/* Project Grid Styles */
+ .project-grid {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 0;
+    max-width: 800px;
+    margin: 2rem auto;
+    background-color: transparent;
+    border: 2px solid #000;
+} 
+
+.project-grid .sidebar {
+    border-right: 2px solid #000;
+    padding: 1.5rem;
+}
+
+.project-grid .main-content {
+    padding: 1.5rem;
+}
+
+/* Content Wrapper Grid */
+.content-wrapper {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+/* Project Titles Sidebar */
+.project-titles {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    height: fit-content;
+}
+
+.project-titles h2 {
+    color: #194aad;
+    font-size: 1.25rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.project-titles a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.project-titles a:hover h2 {
+    text-decoration: underline;
+    color: #0f3177;
+}
+
+.project-titles p {
+    color: #4a5568;
+    font-size: 0.9rem;
+    font-family: 'Arial', sans-serif;
+    margin: 0.75rem 0;
+    padding: 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.project-titles p:hover {
+    background: #f7fafc;
+}
+
+/* Blog Container Styles */
+.blog-container {
+    display: grid;
+    gap: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    padding: 2rem;
+}
+
+.blog-container h1 {
+    color: #194aad;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Modal Input Styles */
+#edit-post-title {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #cbd5e0;
+    font-size: 1rem;
+}
+
+#edit-post-content {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #cbd5e0;
+    font-size: 1rem;
+}
+
+#save-changes-btn {
+    background: #30dd11;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+#Cancel-changes-btn {
+    background: #e53e3e;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-left: 1rem;
+}
+
+/* Logout Container Styles */
+#logout-container {
+    margin-top: 1rem;
+    text-align: center;
+    display: none;
+}
+
+#logout-btn {
+    background: #e53e3e;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
 /* Blog Post Styles */
 .blog-post {
-    background: #f7fafc;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    border-radius: 8px;
-    border-left: 4px solid #194aad;
+    background: #fff;
+    padding: 0;
+    margin-bottom: 2rem;
+    border-radius: 0;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.blog-post img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
 }
 
 .blog-post h2 {
-    color: #194aad;
-    margin-top: 0;
+    color: #2d3748;
+    margin: 1.5rem 1.5rem 0.5rem 1.5rem;
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.blog-post .post-meta {
+    color: #718096;
+    font-size: 0.875rem;
+    margin: 0 1.5rem 1rem 1.5rem;
 }
 
 .blog-post p {
-    margin: 0.5rem 0;
+    margin: 0 1.5rem 1rem 1.5rem;
+    color: #4a5568;
+    line-height: 1.6;
 }
 
 .blog-post .post-content {
-    max-height: 200px;
-    overflow-y: auto;
-    padding: 0.5rem;
-    background: #fff;
-    border-radius: 4px;
-    margin: 1rem 0;
+    max-height: none;
+    overflow-y: visible;
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    background: transparent;
+    border-radius: 0;
+    margin: 0;
+    color: #4a5568;
+    line-height: 1.7;
 }
 
 .blog-post .post-content::-webkit-scrollbar {
