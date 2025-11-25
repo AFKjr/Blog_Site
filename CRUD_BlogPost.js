@@ -112,7 +112,7 @@ function displayBlogPosts()
         
         const title = document.createElement("h2");
         const titleLink = document.createElement("a");
-        titleLink.href = `projects/hello-world.html?postId=${post.id}`;
+        titleLink.href = `projects/posts.html?postId=${post.id}`;
         titleLink.textContent = post.title; // textContent auto-escapes
         titleLink.style.textDecoration = "none";
         titleLink.style.color = "inherit";

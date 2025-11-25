@@ -2,7 +2,7 @@
 
 import { supabaseClient } from '../supabaseImport.js';
 
-async function getHelloWorldPost() 
+async function getPosts() 
 {
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('postId');
@@ -57,4 +57,4 @@ async function getHelloWorldPost()
     postContainer.appendChild(dateElement);
 }
 
-getHelloWorldPost();
+getPosts();

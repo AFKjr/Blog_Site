@@ -9,4 +9,4 @@ const { data: posts, error } = await supabaseClient
 posts.forEach(post => {
     const linkElement = document.createElement('a');
     linkElement.href = `post.html?postId=${post.id}`;
-    linkElement.textContent = post.title;
+});
