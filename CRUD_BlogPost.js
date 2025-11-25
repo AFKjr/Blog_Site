@@ -105,12 +105,18 @@ function displayBlogPosts()
     for (let index = 0; index < blogPosts.length; index++) 
     {
         const post = blogPosts[index];
+        console.log(`Post: "${post.title}" - ID: ${post.id}`);
         
         const postDiv = document.createElement("div");
         postDiv.className = "blog-post";
         
         const title = document.createElement("h2");
-        title.textContent = post.title; // textContent auto-escapes
+        const titleLink = document.createElement("a");
+        titleLink.href = `projects/hello-world.html?postId=${post.id}`;
+        titleLink.textContent = post.title; // textContent auto-escapes
+        titleLink.style.textDecoration = "none";
+        titleLink.style.color = "inherit";
+        title.appendChild(titleLink);
         
         const date = document.createElement("p");
         const dateEm = document.createElement("em");

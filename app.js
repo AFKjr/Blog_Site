@@ -6,6 +6,7 @@ import {
     loadBlogPosts, 
     displayBlogPosts
 } from './CRUD_BlogPost.js';
+import { supabaseClient } from './supabaseImport.js';
 
 // Listen for auth status changes and refresh the display
 window.addEventListener('authStatusChanged', () => {
