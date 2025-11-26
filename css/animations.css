@@ -1,0 +1,9 @@
+/* Animations */
+@keyframes neonGlow {
+    0% { 
+        text-shadow: 0 0 2px var(--accent-neon), 
+                     0 0 10px var(--accent-neon), 
+                     0 0 20px var(--accent-neon), 
+                     0 0 50px var(--accent-neon); 
+    }
+}

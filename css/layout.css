@@ -1,0 +1,19 @@
+/* Layout & Grid */
+.content-wrapper {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+/* Blog Container */
+.blog-container {
+    display: grid;
+    gap: 20px;
+    background: var(--background-subtle-pink);
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(45, 42, 38, 0.04);
+    border: 1px solid var(--border-color);
+    padding: 2rem;
+}

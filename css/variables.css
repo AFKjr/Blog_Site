@@ -1,0 +1,32 @@
+/* CSS Variables - Color Palette & Spacing */
+:root {
+    /* Base colors */
+    --primary-color: #0f0e0d;      /* Almost black with warmth */
+    --primary-hover: #1e1c1a;      /* Warm dark */
+    --text-dark: #2d2a26;          /* Deep warm gray */
+    --text-medium: #4f4a44;        /* Warm medium */
+    --text-light: #87817a;         /* Warm light */
+    --text-lighter: #e8e8e8;       /* Very light gray */
+    --text-soft-white: #f5f5f5;    /* Soft white */
+    
+    /* Backgrounds */
+    --background-white: #fffffe;   /* Slightly warm white */
+    --background-subtle: #e1d0ad;  /* Warm off-white */
+    --border-color: rgba(255, 255, 255, 0.1); /* Soft border */
+    --background-title: #fd43d8;   /* Vibrant title bg */
+    --background-subtle-pink: rgb(253, 67, 216, 0.15);
+    --background-dark-glass: rgba(15, 14, 13, 0.693); /* Dark glass effect */
+    --background-charcoal: #1a1816; /* Charcoal gray */
+
+    /* Accents */
+    --accent-terra: #d77a52;       /* Terracotta sunset */
+    --accent-hover: #c17e5f;       /* Deep terra */
+    --accent-sage: #7a9b8c;        /* Urban garden green */
+    --accent-neon: rgb(0, 229, 225, 0.8);  /* Neon cyan */
+    
+    /* Spacing */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 2rem;
+    --space-lg: 3rem;
+}

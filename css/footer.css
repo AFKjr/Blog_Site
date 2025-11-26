@@ -1,0 +1,16 @@
+/* Footer Styles */
+footer {
+    background: rgba(15, 14, 13, 0.85);
+    color: #e8e8e8;
+    text-align: center;
+    padding: 2rem 1rem;
+    margin-top: 4rem;
+    border-top: 1px solid var(--border-color);
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.95rem;
+    animation: neonGlow 3.0s ease-in-out infinite;
+}

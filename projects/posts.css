@@ -1,101 +1,106 @@
-/* Single Post Page Styles */
+/* Single Post Page Styles - NYC Cyberpunk Theme */
 
-.post-page-wrapper {
-    max-width: 800px;
-    margin: 0 auto;
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+    background-image: url(../pics/NYC\ skyline.jpg);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #e8e8e8;
+    margin: 0;
     padding: 2rem;
     min-height: 100vh;
+    line-height: 1.6;
 }
 
-.post-navigation {
+#link {
     margin-bottom: 2rem;
 }
 
-.back-link {
-    color: #194aad;
+#link a {
+    color: rgb(0, 229, 225, 0.8);
     text-decoration: none;
-    font-size: 1rem;
-    display: inline-flex;
-    align-items: center;
-    transition: color 0.2s;
+    font-weight: 500;
+    transition: all 0.3s ease;
 }
 
-.back-link:hover {
-    color: #0f3177;
-    text-decoration: underline;
+#link a:hover {
+    color: #00ffff;
+    text-shadow: 0 0 10px rgb(0, 229, 225, 0.8);
 }
 
-.single-post {
-    background: #fff;
+#blog-posts {
+    background: rgba(15, 14, 13, 0.85);
     padding: 3rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    margin: 0 auto;
+    max-width: 800px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
 }
 
-.post-header {
+/* Styles for dynamically created elements */
+#blog-posts .post-header {
     margin-bottom: 2rem;
     padding-bottom: 1.5rem;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.post-title {
-    color: #2d3748;
+#blog-posts .post-title {
+    color: #e8e8e8;
     font-size: 2.5rem;
     line-height: 1.2;
     margin: 0 0 1rem 0;
-    font-weight: 700;
+    font-weight: 600;
+    letter-spacing: -0.02em;
 }
 
-.post-meta {
-    color: #718096;
+#blog-posts .post-meta {
+    color: #e8e8e8;
     font-size: 0.95rem;
 }
 
-.post-date {
+#blog-posts .post-date {
     font-style: italic;
 }
 
-.post-edited {
-    color: #a0aec0;
+#blog-posts .post-edited {
+    color: #e8e8e8;
     font-size: 0.9rem;
 }
 
-.post-body {
-    color: #4a5568;
+#blog-posts .post-body {
+    color: #e8e8e8;
     font-size: 1.1rem;
     line-height: 1.8;
     margin-top: 2rem;
 }
 
-/* Responsive adjustments for post page */
+/* Responsive */
 @media (max-width: 768px) {
-    .post-page-wrapper {
+    body {
         padding: 1rem;
     }
     
-    .single-post {
+    #blog-posts {
         padding: 2rem 1.5rem;
     }
     
-    .post-title {
+    #blog-posts .post-title {
         font-size: 2rem;
-    }
-    
-    .post-body {
-        font-size: 1rem;
     }
 }
 
 @media (max-width: 480px) {
-    .post-page-wrapper {
+    body {
         padding: 0.5rem;
     }
     
-    .single-post {
+    #blog-posts {
         padding: 1.5rem 1rem;
     }
     
-    .post-title {
+    #blog-posts .post-title {
         font-size: 1.75rem;
     }
 }

@@ -1,0 +1,32 @@
+/* Responsive Design */
+@media (max-width: 768px) {
+    .post-page-wrapper {
+        padding: 1rem;
+    }
+    
+    .single-post {
+        padding: 2rem 1.5rem;
+    }
+    
+    .post-title {
+        font-size: 2rem;
+    }
+    
+    .post-body {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .post-page-wrapper {
+        padding: 0.5rem;
+    }
+    
+    .single-post {
+        padding: 1.5rem 1rem;
+    }
+    
+    .post-title {
+        font-size: 1.75rem;
+    }
+}

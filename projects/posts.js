@@ -9,11 +9,10 @@ async function getPosts()
 
     if (!postId)
     {
-        document.getElementById('post-container').textContent = 'No post ID provided in the URL.';
+        document.getElementById('blog-posts').textContent = 'No post ID provided in the URL.';
         return;
     }
 
-    // Fetching the hello world post data
     const { data: post, error } = await supabaseClient
         .from('blog_posts')
         .select('*')
@@ -23,13 +22,13 @@ async function getPosts()
     if (error) 
     {
         console.error('Error fetching post:', error);
-        document.getElementById('post-container').textContent = `Error loading post: ${error.message}`;
+        document.getElementById('blog-posts').textContent = `Error loading post: ${error.message}`;
         return;
     }
     
     if (!post) 
     {
-        document.getElementById('post-container').textContent = 'Post not found.';
+        document.getElementById('blog-posts').textContent = 'Post not found.';
         return;
     }
 
@@ -79,7 +78,13 @@ async function getPosts()
     postHeader.appendChild(titleElement);
     postHeader.appendChild(postMeta);
     
-    const postContainer = document.getElementById('post-container');
+    const postContainer = document.getElementById('blog-posts');
+    
+    if (!postContainer) {
+        console.error('Error: blog-posts container not found in DOM');
+        return;
+    }
+    
     postContainer.appendChild(postHeader);
     postContainer.appendChild(bodyElement);
 }

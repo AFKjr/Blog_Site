@@ -1,0 +1,24 @@
+/* Authentication Styles */
+#logout-container {
+    margin-top: 1rem;
+    text-align: center;
+    display: none;
+}
+
+#logout-btn {
+    background: transparent;
+    color: var(--text-medium);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#logout-btn:hover {
+    background: var(--background-subtle);
+    border-color: var(--text-dark);
+    color: var(--text-dark);
+}
