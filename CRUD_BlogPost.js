@@ -89,6 +89,7 @@ async function loadBlogPosts()
 
 /**
  * Display blog posts with escaped HTML
+ * Only shows most recent post with first 100 words and read more link
  */
 function displayBlogPosts()
 {
@@ -104,61 +105,75 @@ function displayBlogPosts()
         return;
     }
     
-    for (let index = 0; index < blogPosts.length; index++) 
+    // Only display the most recent post (first in array since ordered by date_created desc)
+    const post = blogPosts[0];
+    
+    const postDiv = document.createElement("div");
+    postDiv.className = "blog-post";
+    
+    const title = document.createElement("h2");
+    const titleLink = document.createElement("a");
+    titleLink.href = `projects/posts.html?postId=${post.id}`;
+    titleLink.textContent = post.title; // textContent auto-escapes
+    titleLink.style.textDecoration = "none";
+    titleLink.style.color = "inherit";
+    title.appendChild(titleLink);
+    
+    const date = document.createElement("p");
+    date.className = "post-meta";
+    const dateEm = document.createElement("em");
+    const postDate = new Date(post.date_created).toLocaleDateString();
+    dateEm.textContent = `Posted on: ${postDate}`;
+    if (post.date_edited) 
     {
-        const post = blogPosts[index];
-        
-        const postDiv = document.createElement("div");
-        postDiv.className = "blog-post";
-        
-        const title = document.createElement("h2");
-        const titleLink = document.createElement("a");
-        titleLink.href = `projects/posts.html?postId=${post.id}`;
-        titleLink.textContent = post.title; // textContent auto-escapes
-        titleLink.style.textDecoration = "none";
-        titleLink.style.color = "inherit";
-        title.appendChild(titleLink);
-        
-        const date = document.createElement("p");
-        const dateEm = document.createElement("em");
-        const postDate = new Date(post.date_created).toLocaleDateString();
-        dateEm.textContent = `Posted on: ${postDate}`;
-        if (post.date_edited) 
-        {
-            const editDate = new Date(post.date_edited).toLocaleDateString();
-            dateEm.textContent += ` (Edited: ${editDate})`;
-        }
-        date.appendChild(dateEm);
-        
-        const contentWrapper = document.createElement("div");
-        contentWrapper.className = "post-content";
-        
-        const content = document.createElement("p");
-        content.textContent = post.content; // textContent auto-escapes
-        content.style.whiteSpace = "pre-wrap";
-        
-        contentWrapper.appendChild(content);
-        
-        postDiv.appendChild(title);
-        postDiv.appendChild(date);
-        postDiv.appendChild(contentWrapper);
-        
-        if (getAuthStatus()) 
-        {
-            const editBtn = document.createElement("button");
-            editBtn.textContent = "Edit";
-            editBtn.onclick = function() { editBlogPost(post.id); };
-            
-            const deleteBtn = document.createElement("button");
-            deleteBtn.textContent = "Delete";
-            deleteBtn.onclick = function() { deleteBlogPost(post.id); };
-            
-            postDiv.appendChild(editBtn);
-            postDiv.appendChild(deleteBtn);
-        }
-        
-        blogContainer.appendChild(postDiv);
+        const editDate = new Date(post.date_edited).toLocaleDateString();
+        dateEm.textContent += ` (Edited: ${editDate})`;
     }
+    date.appendChild(dateEm);
+    
+    const contentWrapper = document.createElement("div");
+    contentWrapper.className = "post-content";
+    
+    // Get first 100 words
+    const words = post.content.split(/\s+/);
+    const first100Words = words.slice(0, 100).join(' ');
+    const needsReadMore = words.length > 100;
+    
+    const content = document.createElement("p");
+    content.textContent = first100Words + (needsReadMore ? '...' : ''); // textContent auto-escapes
+    content.style.whiteSpace = "pre-wrap";
+    
+    contentWrapper.appendChild(content);
+    
+    // Add "Read More" link if content is truncated
+    if (needsReadMore) 
+    {
+        const readMoreLink = document.createElement("a");
+        readMoreLink.href = `projects/posts.html?postId=${post.id}`;
+        readMoreLink.textContent = "Click here to read on";
+        readMoreLink.className = "read-more-link";
+        contentWrapper.appendChild(readMoreLink);
+    }
+    
+    postDiv.appendChild(title);
+    postDiv.appendChild(date);
+    postDiv.appendChild(contentWrapper);
+    
+    if (getAuthStatus()) 
+    {
+        const editBtn = document.createElement("button");
+        editBtn.textContent = "Edit";
+        editBtn.onclick = function() { editBlogPost(post.id); };
+        
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";
+        deleteBtn.onclick = function() { deleteBlogPost(post.id); };
+        
+        postDiv.appendChild(editBtn);
+        postDiv.appendChild(deleteBtn);
+    }
+    
+    blogContainer.appendChild(postDiv);
 }
 
 /**

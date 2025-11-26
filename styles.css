@@ -1,22 +1,27 @@
-/* Rooftop Sunset Color Palette - Post-Future NYC Bohemian */
 :root {
-    /* Base colors - urban warmth */
+    /* Base colors 
     --primary-color: #0f0e0d;      /* Almost black with warmth */
     --primary-hover: #1e1c1a;      /* Warm dark */
     --text-dark: #2d2a26;          /* Deep warm gray */
     --text-medium: #4f4a44;        /* Warm medium */
     --text-light: #87817a;         /* Warm light */
+    --text-lighter: #e8e8e8;      /* Very light gray */
+    --text-soft-white: #f5f5f5;    /* Soft white */
     
     /* Backgrounds */
     --background-white: #fffffe;   /* Slightly warm white */
     --background-subtle: #e1d0ad;  /* Warm off-white */
-    --border-color: #e8e4df;       /* Warm border */
-    
-    /* Accents - sunset meets future */
+    --border-color: rgba(255, 255, 255, 0.1); /* Soft border */
+    --background-title: #fd43d8; /* Vibrant title bg */
+    --background-subtle-pink: rgb(253, 67, 216, 0.15);
+    --background-dark-glass: rgba(15, 14, 13, 0.693); /* Dark glass effect */
+    --background-charcoal: #1a1816; /* Charcoal gray */
+
+    /* Accents
     --accent-terra: #d77a52;       /* Terracotta sunset */
-    --accent-hover: #c2693f;       /* Deep terra */
+    --accent-hover: #c17e5f;       /* Deep terra */
     --accent-sage: #7a9b8c;        /* Urban garden green */
-    --accent-electric: #5fb3f5;    /* Sky blue - tech accent */
+    --accent-neon: rgb(0, 229, 225, 0.8);  /* Neon cyan */
     
     /* Spacing */
     --space-xs: 0.5rem;
@@ -31,7 +36,7 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
-    background-color: var(--background-subtle);
+    background-image: url(pics/NYC\ skyline.jpg);
     color: var(--text-medium);
     margin: 0;
     padding: 0;
@@ -46,25 +51,39 @@ body {
 .main-title {
     max-width: 800px;
     margin: 2rem auto;
-    background-color: transparent;
+    background-color: var(--background-subtle-pink);
     padding: 2rem 3rem;
     border-radius: 12px;
     box-shadow: 0 2px 12px rgba(45, 42, 38, 0.06);
     text-align: center;
 }
 
+@keyframes neonGlow{
+    0% { text-shadow: 0 0 2px var(--accent-neon), 
+        0 0 10px var(--accent-neon), 
+        0 0 20px var(--accent-neon), 
+        0 0 50px var(--accent-neon); 
+    }
+}
 h1 {
-    color: var(--primary-color);
+    color: var(--accent-neon);
     margin-bottom: 1rem;
     font-weight: 600;
     letter-spacing: -0.02em;
+    text-shadow: 0 0 2px var(--accent-neon);
+    animation: neonGlow 3.0s ease-in-out infinite alternate;
+}
+
+.Learn-JavaScript-with-Me {
+    animation: none;
 }
 
 #days {
     font-size: 2.5rem;
-    color: var(--accent-electric);
+    color: var(--accent-neon);
     margin-top: 1rem;
     font-weight: 500;
+    animation: neonGlow 3.0s ease-in-out infinite alternate;
 }
 
 label, input {
@@ -90,7 +109,7 @@ input[type="date"] {
 }
 
 .modal-content {
-    background-color: var(--background-white);
+    background-color: var(--background-title);
     margin: 10% auto;
     padding: 2rem;
     border-radius: 12px;
@@ -117,7 +136,7 @@ input[type="date"] {
 .content-wrapper {
     display: grid;
     grid-template-columns: 250px 1fr;
-    gap: 2rem;
+    /*gap: 2rem; */
     max-width: 1200px;
     margin: 2rem auto;
     padding: 0 2rem;
@@ -125,7 +144,7 @@ input[type="date"] {
 
 /* Project Titles Sidebar */
 .project-titles {
-    background: var(--background-white);
+    background: var(--background-subtle-pink);
     padding: 1.5rem;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(45, 42, 38, 0.04);
@@ -134,26 +153,28 @@ input[type="date"] {
 }
 
 .project-titles h2 {
-    color: var(--primary-color);
+    color: var(--accent-neon);
     font-size: 1.25rem;
     margin-top: 0;
     margin-bottom: 1rem;
     font-weight: 600;
     letter-spacing: -0.01em;
+    animation: neonGlow 3.0s ease-in-out infinite alternate;
 }
 
 .project-titles a {
     text-decoration: none;
-    color: inherit;
-    transition: color 0.2s ease;
+    color: var(--accent-neon);
+    animation: neonGlow 3.0s ease-in-out infinite alternate;
 }
 
 .project-titles a:hover h2 {
-    color: var(--accent-terra);
+    color: var(--accent-neon);
+    animation: neonGlow 3.0s ease-in-out infinite alternate;
 }
 
 .project-titles p {
-    color: var(--text-medium);
+    color: var(--accent-neon);
     font-size: 0.9rem;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     margin: 0.75rem 0;
@@ -161,25 +182,27 @@ input[type="date"] {
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.2s ease;
+    animation: neonGlow 3.0s ease-in-out infinite alternate;
 }
 
 .project-titles p:hover {
-    background: var(--background-subtle);
-    color: var(--accent-terra);
+    /*background: var(--background-subtle);*/
+    color: var(--accent-neon);
+    animation: neonGlow 5.5s ease-in-out infinite alternate;
 }
 
 /* Blog Container Styles */
 .blog-container {
     display: grid;
     gap: 20px;
-    background: var(--background-white);
+    background: var(--background-subtle-pink);
     border-radius: 10px;
     box-shadow: 0 1px 3px rgba(45, 42, 38, 0.04);
     border: 1px solid var(--border-color);
     padding: 2rem;
 }
 
-.blog-container h1 {
+.Learn-JavaScript-with-Me {
     color: var(--primary-color);
     text-align: center;
     margin-bottom: 2rem;
@@ -188,7 +211,7 @@ input[type="date"] {
     position: relative;
 }
 
-.blog-container h1::after {
+.Learn-JavaScript-with-Me::after {
     content: '';
     display: block;
     width: 60px;
@@ -200,7 +223,7 @@ input[type="date"] {
 
 /* Blog Post Styles */
 .blog-post {
-    background: var(--background-white);
+    background: var(--background-dark-glass);
     padding: 0;
     margin-bottom: 2rem;
     border-radius: 8px;
@@ -220,10 +243,11 @@ input[type="date"] {
     height: 200px;
     object-fit: cover;
     display: block;
+    filter: brightness(0.8);
 }
 
 .blog-post h2 {
-    color: var(--text-dark);
+    color: #e8e8e8;
     margin: 1.5rem 1.5rem 0.5rem 1.5rem;
     font-size: 1.75rem;
     font-weight: 600;
@@ -232,7 +256,7 @@ input[type="date"] {
 }
 
 .blog-post h2 a {
-    color: var(--text-dark);
+    color: #e8e8e8;
     text-decoration: none;
     transition: color 0.2s ease;
 }
@@ -242,14 +266,14 @@ input[type="date"] {
 }
 
 .blog-post .post-meta {
-    color: var(--text-light);
+    color: #e8e8e8;
     font-size: 0.875rem;
     margin: 0 1.5rem 1rem 1.5rem;
 }
 
 .blog-post p {
     margin: 0 1.5rem 1rem 1.5rem;
-    color: var(--text-medium);
+    color: #e8e8e8;
     line-height: 1.7;
 }
 
@@ -262,6 +286,20 @@ input[type="date"] {
     margin: 0;
     color: var(--text-medium);
     line-height: 1.7;
+}
+
+.read-more-link {
+    display: inline-block;
+    margin-top: 1rem;
+    color: var(--accent-neon);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.read-more-link:hover {
+    color: #00ffff;
+    text-shadow: 0 0 10px var(--accent-neon);
 }
 
 .blog-post button {
