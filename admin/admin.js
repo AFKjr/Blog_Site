@@ -1,8 +1,8 @@
 // Admin panel functionality w/ security checks
 
-import { supabaseClient } from './supabaseImport.js';
+import { supabaseClient } from '../supabaseImport.js';
 import { validateBlogPost, setupCharacterCounters } from './inputValidation.js ';
-import { loginRateLimiter, postRateLimiter } from './rateLimiting.js';
+import { loginRateLimiter, postRateLimiter } from '../rateLimiting.js';
 
 let currentEditingPostId = null;
 
