@@ -4,6 +4,7 @@ import { supabaseClient } from './supabaseImport.js';
 import { getAuthStatus } from './authCheck.js';
 import { validateBlogPost } from './inputValidation.js';
 import { postRateLimiter } from './rateLimiting.js';
+import { displayProjectLinks } from './display-project-links.js';
 
 let blogPosts = [];
 let currentEditingPostId = null;
@@ -82,6 +83,7 @@ async function loadBlogPosts()
     {
         blogPosts = data || [];
         displayBlogPosts();
+        displayProjectLinks(blogPosts);
     }
 }
 
@@ -105,7 +107,6 @@ function displayBlogPosts()
     for (let index = 0; index < blogPosts.length; index++) 
     {
         const post = blogPosts[index];
-        console.log(`Post: "${post.title}" - ID: ${post.id}`);
         
         const postDiv = document.createElement("div");
         postDiv.className = "blog-post";

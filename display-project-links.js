@@ -36,7 +36,7 @@ function displayProjectLinks(blogPosts)
         
         // Create the link element
         const linkElement = document.createElement('a');
-        linkElement.href = `projects/post.html?postId=${post.id}`;
+        linkElement.href = `projects/posts.html?postId=${post.id}`; // CHANGED FROM post.html to posts.html
         
         // Create the paragraph with post title
         const paragraphElement = document.createElement('p');

@@ -1,0 +1,101 @@
+/* Single Post Page Styles */
+
+.post-page-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: 100vh;
+}
+
+.post-navigation {
+    margin-bottom: 2rem;
+}
+
+.back-link {
+    color: #194aad;
+    text-decoration: none;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.back-link:hover {
+    color: #0f3177;
+    text-decoration: underline;
+}
+
+.single-post {
+    background: #fff;
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.post-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.post-title {
+    color: #2d3748;
+    font-size: 2.5rem;
+    line-height: 1.2;
+    margin: 0 0 1rem 0;
+    font-weight: 700;
+}
+
+.post-meta {
+    color: #718096;
+    font-size: 0.95rem;
+}
+
+.post-date {
+    font-style: italic;
+}
+
+.post-edited {
+    color: #a0aec0;
+    font-size: 0.9rem;
+}
+
+.post-body {
+    color: #4a5568;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-top: 2rem;
+}
+
+/* Responsive adjustments for post page */
+@media (max-width: 768px) {
+    .post-page-wrapper {
+        padding: 1rem;
+    }
+    
+    .single-post {
+        padding: 2rem 1.5rem;
+    }
+    
+    .post-title {
+        font-size: 2rem;
+    }
+    
+    .post-body {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .post-page-wrapper {
+        padding: 0.5rem;
+    }
+    
+    .single-post {
+        padding: 1.5rem 1rem;
+    }
+    
+    .post-title {
+        font-size: 1.75rem;
+    }
+}
