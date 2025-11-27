@@ -1,22 +1,26 @@
-/* Admin Page Specific Styles */
+/* Admin Page Specific Styles - NYC Cyberpunk Theme */
 
 .admin-container {
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-image: url(../pics/NYC\ skyline.jpg);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     padding: 2rem;
 }
 
 .admin-login-card {
     max-width: 400px;
     margin: 5rem auto;
-    background: white;
+    background: rgba(15, 14, 13, 0.9);
     padding: 2.5rem;
     border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .admin-login-card h1 {
-    color: #2d3748;
+    color: #e8e8e8;
     margin-bottom: 2rem;
     text-align: center;
     font-size: 1.75rem;
@@ -30,7 +34,7 @@
 .form-group label {
     display: block;
     margin-bottom: 0.5rem;
-    color: #4a5568;
+    color: #e8e8e8;
     font-weight: 500;
     font-size: 0.9rem;
 }
@@ -39,7 +43,9 @@
 .form-group textarea {
     width: 100%;
     padding: 0.75rem;
-    border: 2px solid #e2e8f0;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: #e8e8e8;
     border-radius: 8px;
     font-size: 1rem;
     transition: border-color 0.3s, box-shadow 0.3s;
@@ -48,24 +54,25 @@
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: rgb(0, 229, 225, 0.8);
+    box-shadow: 0 0 0 3px rgba(0, 229, 225, 0.1);
 }
 
 .char-count {
     display: block;
     text-align: right;
     font-size: 0.75rem;
-    color: #718096;
+    color: #e8e8e8;
     margin-top: 0.25rem;
 }
 
 .error-message {
-    color: #e53e3e;
+    color: #ff6b6b;
     font-size: 0.875rem;
     margin-bottom: 1rem;
     padding: 0.5rem;
-    background: #fed7d7;
+    background: rgba(255, 107, 107, 0.1);
+    border: 1px solid rgba(255, 107, 107, 0.3);
     border-radius: 6px;
     display: none;
 }
@@ -77,18 +84,19 @@
 .btn-primary {
     width: 100%;
     padding: 0.875rem;
-    background: #667eea;
-    color: white;
+    background: rgb(0, 229, 225, 0.8);
+    color: #0f0e0d;
     border: none;
     border-radius: 8px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.3s, transform 0.1s;
+    transition: all 0.3s;
 }
 
 .btn-primary:hover {
-    background: #5568d3;
+    background: #00ffff;
+    box-shadow: 0 0 20px rgba(0, 229, 225, 0.5);
     transform: translateY(-1px);
 }
 
@@ -97,7 +105,7 @@
 }
 
 .btn-primary:disabled {
-    background: #a0aec0;
+    background: rgba(255, 255, 255, 0.2);
     cursor: not-allowed;
     transform: none;
 }
@@ -105,8 +113,8 @@
 .btn-secondary {
     padding: 0.875rem 1.5rem;
     background: transparent;
-    color: #667eea;
-    border: 2px solid #667eea;
+    color: rgb(0, 229, 225, 0.8);
+    border: 2px solid rgb(0, 229, 225, 0.8);
     border-radius: 8px;
     font-size: 1rem;
     font-weight: 600;
@@ -115,21 +123,24 @@
 }
 
 .btn-secondary:hover {
-    background: #667eea;
-    color: white;
+    background: rgb(0, 229, 225, 0.8);
+    color: #0f0e0d;
+    box-shadow: 0 0 15px rgba(0, 229, 225, 0.4);
 }
 
 .back-link {
     display: block;
     text-align: center;
     margin-top: 1.5rem;
-    color: #667eea;
+    color: rgb(0, 229, 225, 0.8);
     text-decoration: none;
     font-size: 0.9rem;
+    transition: all 0.3s;
 }
 
 .back-link:hover {
-    text-decoration: underline;
+    color: #00ffff;
+    text-shadow: 0 0 10px rgba(0, 229, 225, 0.5);
 }
 
 /* Admin Panel */
@@ -142,15 +153,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: white;
+    background: rgba(15, 14, 13, 0.85);
     padding: 1.5rem 2rem;
     border-radius: 12px;
     margin-bottom: 2rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .admin-header h1 {
-    color: #2d3748;
+    color: #e8e8e8;
     margin: 0;
 }
 
@@ -162,15 +174,16 @@
 
 .add-post-section,
 .manage-posts-section {
-    background: white;
+    background: rgba(15, 14, 13, 0.85);
     padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .add-post-section h2,
 .manage-posts-section h2 {
-    color: #2d3748;
+    color: #e8e8e8;
     margin-top: 0;
     margin-bottom: 1.5rem;
     font-size: 1.5rem;
@@ -188,25 +201,27 @@
 
 .admin-post-item {
     padding: 1rem;
-    border: 1px solid #e2e8f0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 8px;
     margin-bottom: 1rem;
-    transition: box-shadow 0.3s;
+    transition: all 0.3s;
 }
 
 .admin-post-item:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 229, 225, 0.2);
+    border-color: rgba(0, 229, 225, 0.3);
 }
 
 .admin-post-item h3 {
-    color: #2d3748;
+    color: #e8e8e8;
     margin: 0 0 0.5rem 0;
     font-size: 1.1rem;
 }
 
 .admin-post-item .post-meta {
     font-size: 0.875rem;
-    color: #718096;
+    color: #e8e8e8;
     margin-bottom: 1rem;
 }
 
@@ -225,21 +240,22 @@
 }
 
 .admin-post-item .edit-btn {
-    background: #667eea;
-    color: white;
+    background: rgb(0, 229, 225, 0.8);
+    color: #0f0e0d;
 }
 
 .admin-post-item .edit-btn:hover {
-    background: #5568d3;
+    background: #00ffff;
+    box-shadow: 0 0 10px rgba(0, 229, 225, 0.5);
 }
 
 .admin-post-item .delete-btn {
-    background: #e53e3e;
+    background: #d77a52;
     color: white;
 }
 
 .admin-post-item .delete-btn:hover {
-    background: #c53030;
+    background: #c17e5f;
 }
 
 /* Responsive */

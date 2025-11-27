@@ -1,7 +1,7 @@
 // Admin panel functionality w/ security checks
 
 import { supabaseClient } from '../supabaseImport.js';
-import { validateBlogPost, setupCharacterCounters } from './inputValidation.js ';
+import { validateBlogPost, setupCharacterCounters } from '../inputValidation.js';
 import { loginRateLimiter, postRateLimiter } from '../rateLimiting.js';
 
 let currentEditingPostId = null;
@@ -87,14 +87,14 @@ async function handleLogin(event)
 
         //Load posts
 
-        await loadBlogPosts();
+        await loadAdminPosts();
 
     } catch (error) {
         console.error('Login error:', error);
         showError('login-error', 'Invalid email or password');
     } finally {
-        loginButton.disabled = false;
-        loginButton.textContent = 'Login';
+        LoginButton.disabled = false;
+        LoginButton.textContent = 'Login';
     }
 }
 
