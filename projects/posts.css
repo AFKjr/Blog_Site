@@ -30,20 +30,22 @@ body {
 }
 
 #blog-posts {
-    background: rgba(15, 14, 13, 0.85);
+    background: rgba(15, 14, 13, 0.6);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
     padding: 3rem;
     margin: 0 auto;
     max-width: 800px;
     border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 229, 225, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
 }
 
 /* Styles for dynamically created elements */
 #blog-posts .post-header {
     margin-bottom: 2rem;
     padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(0, 229, 225, 0.2);
 }
 
 #blog-posts .post-title {

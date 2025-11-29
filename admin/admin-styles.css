@@ -12,11 +12,13 @@
 .admin-login-card {
     max-width: 400px;
     margin: 5rem auto;
-    background: rgba(15, 14, 13, 0.9);
+    background: rgba(15, 14, 13, 0.6);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
     padding: 2.5rem;
     border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+    border: 1px solid rgba(0, 229, 225, 0.3);
 }
 
 .admin-login-card h1 {
@@ -43,8 +45,10 @@
 .form-group textarea {
     width: 100%;
     padding: 0.75rem;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(0, 229, 225, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     color: #e8e8e8;
     border-radius: 8px;
     font-size: 1rem;
@@ -153,12 +157,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(15, 14, 13, 0.85);
+    background: rgba(15, 14, 13, 0.6);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
     padding: 1.5rem 2rem;
     border-radius: 12px;
     margin-bottom: 2rem;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+    border: 1px solid rgba(0, 229, 225, 0.3);
 }
 
 .admin-header h1 {
@@ -174,11 +180,13 @@
 
 .add-post-section,
 .manage-posts-section {
-    background: rgba(15, 14, 13, 0.85);
+    background: rgba(15, 14, 13, 0.6);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
     padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+    border: 1px solid rgba(0, 229, 225, 0.3);
 }
 
 .add-post-section h2,
@@ -201,16 +209,19 @@
 
 .admin-post-item {
     padding: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 229, 225, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-radius: 8px;
     margin-bottom: 1rem;
     transition: all 0.3s;
 }
 
 .admin-post-item:hover {
-    box-shadow: 0 2px 8px rgba(0, 229, 225, 0.2);
-    border-color: rgba(0, 229, 225, 0.3);
+    box-shadow: 0 4px 16px rgba(0, 229, 225, 0.3);
+    border-color: rgba(0, 229, 225, 0.5);
+    background: rgba(255, 255, 255, 0.12);
 }
 
 .admin-post-item h3 {

@@ -112,7 +112,8 @@ async function handleLogout() {
 /**
  * Loads all posts for admin management
  */
-async function loadAdminPosts() {
+async function loadAdminPosts() 
+{
     const { data, error } = await supabaseClient
         .from('blog_posts')
         .select('*')
@@ -152,8 +153,8 @@ function displayAdminPosts(posts) {
                     ${editedDate ? `| Edited: ${editedDate}` : ''}
                 </div>
                 <div class="post-actions">
-                    <button class="edit-btn" onclick="window.editPost(${post.id})">Edit</button>
-                    <button class="delete-btn" onclick="window.deletePost(${post.id})">Delete</button>
+                    <button class="edit-btn" onclick="window.editPost('${post.id}')">Edit</button>
+                    <button class="delete-btn" onclick="window.deletePost('${post.id}')">Delete</button>
                 </div>
             </div>
         `;

@@ -12,10 +12,10 @@
     /* Backgrounds */
     --background-white: #fffffe;   /* Slightly warm white */
     --background-subtle: #e1d0ad;  /* Warm off-white */
-    --border-color: rgba(255, 255, 255, 0.1); /* Soft border */
+    --border-color: rgba(0, 229, 225, 0.3); /* Cyan glass border */
     --background-title: #fd43d8;   /* Vibrant title bg */
     --background-subtle-pink: rgb(253, 67, 216, 0.15);
-    --background-dark-glass: rgba(15, 14, 13, 0.693); /* Dark glass effect */
+    --background-dark-glass: rgba(15, 14, 13, 0.6); /* Dark glass effect */
     --background-charcoal: #1a1816; /* Charcoal gray */
 
     /* Accents */
