@@ -71,8 +71,8 @@ async function getPosts()
     
     const bodyElement = document.createElement('div');
     bodyElement.className = 'post-body';
-    bodyElement.textContent = post.content;
-    bodyElement.style.whiteSpace = 'pre-wrap'; // Preserves line breaks
+    // Render HTML content from Quill editor
+    bodyElement.innerHTML = post.content;
     
     // Build the structure
     postHeader.appendChild(titleElement);

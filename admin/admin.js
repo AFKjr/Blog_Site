@@ -102,7 +102,8 @@ async function handleLogin(event)
 /**
  * Handles logout
  */
-async function handleLogout() {
+async function handleLogout() 
+{
     await supabaseClient.auth.signOut();
     document.getElementById('login-card').style.display = 'block';
     document.getElementById('admin-panel').style.display = 'none';
@@ -164,7 +165,8 @@ function displayAdminPosts(posts) {
 /**
  * Helper function to escape HTML
  */
-function escapeHtml(text) {
+function escapeHtml(text) 
+{
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
@@ -173,7 +175,8 @@ function escapeHtml(text) {
 /**
  * Handles creating a new post with validation and rate limiting
  */
-async function handleCreatePost(event) {
+async function handleCreatePost(event) 
+{
     event.preventDefault();
     
     // Check rate limiting
@@ -184,9 +187,11 @@ async function handleCreatePost(event) {
     }
     
     const titleInput = document.getElementById('post-title');
-    const contentInput = document.getElementById('post-content');
     
-    const validation = validateBlogPost(titleInput.value, contentInput.value);
+    // Get content from Quill editor
+    const content = window.quillNewPost ? window.quillNewPost.root.innerHTML : '';
+    
+    const validation = validateBlogPost(titleInput.value, content);
     
     if (!validation.isValid) {
         alert('Validation errors:\n' + validation.errors.join('\n'));
@@ -212,7 +217,9 @@ async function handleCreatePost(event) {
         
         // Clear form and draft
         titleInput.value = '';
-        contentInput.value = '';
+        if (window.quillNewPost) {
+            window.quillNewPost.setText('');
+        }
         clearDraft();
         
         // Reload posts
@@ -232,7 +239,8 @@ async function handleCreatePost(event) {
 /**
  * Opens edit modal for a post
  */
-async function editPost(postId) {
+async function editPost(postId) 
+{
     const { data, error } = await supabaseClient
         .from('blog_posts')
         .select('*')
@@ -248,20 +256,29 @@ async function editPost(postId) {
     currentEditingPostId = postId;
     
     document.getElementById('edit-post-title').value = data.title;
-    document.getElementById('edit-post-content').value = data.content;
     document.getElementById('edit-modal').style.display = 'block';
+    
+    // Wait for Quill to initialize and set content
+    setTimeout(() => {
+        if (window.quillEditPost) {
+            window.quillEditPost.root.innerHTML = data.content;
+        }
+    }, 100);
 }
 
 /**
  * Handles updating a post
  */
-async function handleUpdatePost(event) {
+async function handleUpdatePost(event) 
+{
     event.preventDefault();
     
     const titleInput = document.getElementById('edit-post-title');
-    const contentInput = document.getElementById('edit-post-content');
     
-    const validation = validateBlogPost(titleInput.value, contentInput.value);
+    // Get content from Quill editor
+    const content = window.quillEditPost ? window.quillEditPost.root.innerHTML : '';
+    
+    const validation = validateBlogPost(titleInput.value, content);
     
     if (!validation.isValid) {
         alert('Validation errors:\n' + validation.errors.join('\n'));
@@ -303,7 +320,8 @@ async function handleUpdatePost(event) {
 /**
  * Deletes a post
  */
-async function deletePost(postId) {
+async function deletePost(postId) 
+{
     if (!confirm('Are you sure you want to delete this post? This cannot be undone.')) {
         return;
     }
@@ -330,30 +348,44 @@ async function deletePost(postId) {
 /**
  * Draft management
  */
-function setupAutoSaveDraft() {
+function setupAutoSaveDraft() 
+{
     const titleInput = document.getElementById('post-title');
-    const contentInput = document.getElementById('post-content');
     
-    if (!titleInput || !contentInput) return;
+    if (!titleInput) return;
     
     // Load saved draft
     const savedTitle = localStorage.getItem('draftTitle');
     const savedContent = localStorage.getItem('draftContent');
     
     if (savedTitle) titleInput.value = savedTitle;
-    if (savedContent) contentInput.value = savedContent;
     
     // Auto-save on input
     titleInput.addEventListener('input', () => {
         localStorage.setItem('draftTitle', titleInput.value);
     });
     
-    contentInput.addEventListener('input', () => {
-        localStorage.setItem('draftContent', contentInput.value);
-    });
+    // Auto-save Quill content
+    // Wait for Quill to initialize
+    const checkQuill = setInterval(() => {
+        if (window.quillNewPost) {
+            // Load saved content if exists
+            if (savedContent) {
+                window.quillNewPost.root.innerHTML = savedContent;
+            }
+            
+            // Save on text change
+            window.quillNewPost.on('text-change', () => {
+                localStorage.setItem('draftContent', window.quillNewPost.root.innerHTML);
+            });
+            
+            clearInterval(checkQuill);
+        }
+    }, 100);
 }
 
-function clearDraft() {
+function clearDraft() 
+{
     localStorage.removeItem('draftTitle');
     localStorage.removeItem('draftContent');
 }
@@ -361,7 +393,8 @@ function clearDraft() {
 /**
  * Checks if user is already authenticated on page load
  */
-async function checkExistingSession() {
+async function checkExistingSession() 
+{
     const { data: { session } } = await supabaseClient.auth.getSession();
     
     if (session) {
@@ -374,7 +407,8 @@ async function checkExistingSession() {
 /**
  * Initialize admin panel
  */
-async function initializeAdmin() {
+async function initializeAdmin() 
+{
     // Setup character counters
     setupCharacterCounters();
     
@@ -404,7 +438,9 @@ async function initializeAdmin() {
         clearDraftBtn.addEventListener('click', () => {
             if (confirm('Clear draft?')) {
                 document.getElementById('post-title').value = '';
-                document.getElementById('post-content').value = '';
+                if (window.quillNewPost) {
+                    window.quillNewPost.setText('');
+                }
                 clearDraft();
             }
         });
@@ -436,7 +472,8 @@ window.editPost = editPost;
 window.deletePost = deletePost;
 
 // Initialize when DOM is ready
-if (document.readyState === 'loading') {
+if (document.readyState === 'loading') 
+{
     document.addEventListener('DOMContentLoaded', initializeAdmin);
 } else {
     initializeAdmin();

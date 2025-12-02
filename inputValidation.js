@@ -99,18 +99,30 @@ function validateBlogPost(title, content)
 }
 
 /**
- * Updates character count display
+ * Updates character count display for Quill editors and regular inputs
  */
 function updateCharacterCount(inputId, countId, maxLength) 
 {
-    const input = document.getElementById(inputId);
+    const element = document.getElementById(inputId);
     const counter = document.getElementById(countId);
     
-    if (!input || !counter) return;
+    if (!element || !counter) return;
     
     const updateCount = () => 
     {
-        const currentLength = input.value.length;
+        let currentLength = 0;
+        
+        // Check if it's a regular input (like title field)
+        if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+            currentLength = element.value ? element.value.length : 0;
+        } else {
+            // It's a Quill editor container - get text length from editor
+            const quillEditor = element.querySelector('.ql-editor');
+            if (quillEditor) {
+                currentLength = quillEditor.textContent.length;
+            }
+        }
+        
         counter.textContent = `${currentLength} / ${maxLength}`;
         
         if (currentLength > maxLength * 0.9) 
@@ -127,7 +139,19 @@ function updateCharacterCount(inputId, countId, maxLength)
         }
     };
     
-    input.addEventListener('input', updateCount);
+    // Set up appropriate event listener
+    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+        element.addEventListener('input', updateCount);
+    } else {
+        // For Quill editors, use MutationObserver
+        const observer = new MutationObserver(updateCount);
+        observer.observe(element, { 
+            childList: true, 
+            subtree: true, 
+            characterData: true 
+        });
+    }
+    
     updateCount();
 }
 

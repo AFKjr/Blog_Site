@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Days Since I Started Learning Javascript</title>
+    <title>Days Since I Started Learning web development</title>
     <link rel="stylesheet" href="styles.css?v=2">
+
+    <!-- Include Quill stylesheet -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+    <!-- Quill library -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+    <!-- Supabase library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
     <script type="module" src="app.js?v=2" defer></script>
 </head>
@@ -24,7 +30,7 @@
         </div>
         
         <div class="blog-container">
-            <h1 class="Learn-JavaScript-with-Me">Learn Javascript with Me!</h1>
+            <h1 class="Learn-JavaScript-with-Me">Learn web development with Me!</h1>
             <div id="blog-posts"></div>
         </div>
     </div>
@@ -36,7 +42,10 @@
             <span class="close-button">&times;</span>
             <h2>Edit Blog Post</h2>
             <input type="text" id="edit-post-title" placeholder="Title">
-            <textarea id="edit-post-content" rows="4" placeholder="Edit Your Post..."></textarea>
+            <!-- Quill editor container -->
+            <div id="edit-post-content">
+                <p>Edit your post content here...</p>
+            </div>
             <button id="save-changes-btn">Save Changes</button>
             <button id="Cancel-changes-btn">Cancel</button>
         </div>
@@ -46,6 +55,30 @@
     <div id="logout-container">
         <button id="logout-btn">Logout</button>
     </div>
+
+    <!-- Include the Quill library -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
+    <!-- Initialize Quill editor -->
+    <script>
+        // Initialize Quill when modal opens
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('Modal');
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.attributeName === 'style' && modal.style.display !== 'none' && modal.style.display !== '') {
+                        if (!window.quillEditor) {
+                            window.quillEditor = new Quill('#edit-post-content', {
+                                theme: 'snow',
+                                placeholder: 'Edit your post content here...'
+                            });
+                        }
+                    }
+                });
+            });
+            observer.observe(modal, { attributes: true });
+        });
+    </script>
    
 </body>
     <footer>

@@ -134,14 +134,58 @@ function displayBlogPosts()
     const contentWrapper = document.createElement("div");
     contentWrapper.className = "post-content";
     
-    // Get first 100 words
-    const words = post.content.split(/\s+/);
+    // Create a temporary div to parse HTML and extract text for word count
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = post.content;
+    const textContent = tempDiv.textContent || tempDiv.innerText || '';
+    
+    // Get first 100 words from text content
+    const words = textContent.split(/\s+/).filter(word => word.length > 0);
     const first100Words = words.slice(0, 100).join(' ');
     const needsReadMore = words.length > 100;
     
-    const content = document.createElement("p");
-    content.textContent = first100Words + (needsReadMore ? '...' : ''); // textContent auto-escapes
-    content.style.whiteSpace = "pre-wrap";
+    const content = document.createElement("div");
+    
+    // For display, show HTML formatted content (truncated)
+    if (needsReadMore) {
+        // Create a temporary div to get the HTML for first 100 words
+        const previewDiv = document.createElement('div');
+        previewDiv.innerHTML = post.content;
+        
+        // Get text nodes and truncate
+        let wordCount = 0;
+        const truncateNode = (node) => {
+            if (wordCount >= 100) {
+                return false;
+            }
+            if (node.nodeType === Node.TEXT_NODE) {
+                const nodeWords = node.textContent.split(/\s+/).filter(w => w.length > 0);
+                if (wordCount + nodeWords.length > 100) {
+                    const remainingWords = 100 - wordCount;
+                    node.textContent = nodeWords.slice(0, remainingWords).join(' ') + '...';
+                    wordCount = 100;
+                    return false;
+                }
+                wordCount += nodeWords.length;
+            } else if (node.nodeType === Node.ELEMENT_NODE) {
+                for (let i = 0; i < node.childNodes.length; i++) {
+                    if (!truncateNode(node.childNodes[i])) {
+                        // Remove remaining siblings
+                        while (node.childNodes[i + 1]) {
+                            node.removeChild(node.childNodes[i + 1]);
+                        }
+                        break;
+                    }
+                }
+            }
+            return true;
+        };
+        
+        truncateNode(previewDiv);
+        content.innerHTML = previewDiv.innerHTML;
+    } else {
+        content.innerHTML = post.content;
+    }
     
     contentWrapper.appendChild(content);
     
@@ -195,11 +239,19 @@ async function editBlogPost(id)
         const saveChangesBtn = document.getElementById("save-changes-btn");
         const cancelChangesBtn = document.getElementById("Cancel-changes-btn");
         const editTitleInput = document.getElementById("edit-post-title");
-        const editContentTextarea = document.getElementById("edit-post-content"); 
+        const editContentContainer = document.getElementById("edit-post-content"); 
 
         editTitleInput.value = editedPost.title;
-        editContentTextarea.value = editedPost.content;
+        
+        // Wait for Quill to initialize and set content
         modal.style.display = "block";
+        
+        // Wait for Quill to be initialized by the observer
+        setTimeout(() => {
+            if (window.quillEditor) {
+                window.quillEditor.root.innerHTML = editedPost.content;
+            }
+        }, 100);
         currentEditingPostId = id;
 
         closeButton.onclick = function() {
@@ -221,10 +273,12 @@ async function editBlogPost(id)
 async function saveEditedPost()
 {
     const editTitleInput = document.getElementById("edit-post-title");
-    const editContentTextarea = document.getElementById("edit-post-content");
+    
+    // Get content from Quill editor
+    const content = window.quillEditor ? window.quillEditor.root.innerHTML : '';
     
     // Validate and sanitize
-    const validation = validateBlogPost(editTitleInput.value, editContentTextarea.value);
+    const validation = validateBlogPost(editTitleInput.value, content);
     
     if (!validation.isValid) 
     {
