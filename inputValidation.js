@@ -82,19 +82,21 @@ function validateContent(content)
 /**
  * Validates both title and content
  * Returns sanitized values and any errors
+ * Note: Content is NOT sanitized because it comes from Quill rich text editor
+ * which generates safe HTML. Title is sanitized as it should be plain text.
  */
-function validateBlogPost(title, content) 
+function validateBlogPost(title, content)
 {
     const titleValidation = validateTitle(title);
     const contentValidation = validateContent(content);
-    
+
     const allErrors = [...titleValidation.errors, ...contentValidation.errors];
-    
+
     return {
         isValid: allErrors.length === 0,
         errors: allErrors,
         sanitizedTitle: sanitizeInput(title.trim()),
-        sanitizedContent: sanitizeInput(content.trim())
+        sanitizedContent: content.trim() // Keep HTML from Quill editor
     };
 }
 

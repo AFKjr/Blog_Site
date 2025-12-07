@@ -1,0 +1,267 @@
+/* Quill Editor Custom Styling - Modern 2025 Design */
+
+/* Toolbar Container */
+.ql-toolbar.ql-snow {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(0, 229, 225, 0.15);
+    border-bottom: none;
+    border-radius: 12px 12px 0 0;
+    padding: 12px 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+/* Editor Container */
+.ql-container.ql-snow {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(0, 229, 225, 0.15);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 0 0 12px 12px;
+    min-height: 400px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    width: 100%;
+}
+
+/* Editor Content Area */
+.ql-editor {
+    min-height: 400px;
+    padding: 2rem;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #2d2a26;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+.ql-editor.ql-blank::before {
+    color: rgba(45, 42, 38, 0.4);
+    font-style: normal;
+    font-size: 1.05rem;
+    left: 2rem;
+    right: 2rem;
+}
+
+/* Focus State */
+.ql-container.ql-snow:focus-within {
+    border-color: rgb(0, 229, 225, 0.8);
+    box-shadow: 0 0 0 3px rgba(0, 229, 225, 0.1);
+}
+
+/* Toolbar Icons and Colors */
+.ql-snow .ql-stroke {
+    stroke: #2d2a26;
+}
+
+.ql-snow .ql-fill {
+    fill: #2d2a26;
+}
+
+.ql-snow .ql-picker-label {
+    color: #2d2a26;
+}
+
+/* Hide button text labels, keep only icons */
+.ql-snow .ql-toolbar button .ql-stroke,
+.ql-snow .ql-toolbar button .ql-fill {
+    pointer-events: none;
+}
+
+/* Toolbar Format Groups */
+.ql-toolbar.ql-snow .ql-formats {
+    margin-right: 8px;
+}
+
+/* Toolbar Buttons - Modern spacing and design */
+.ql-snow .ql-toolbar button {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    padding: 5px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    margin: 0 2px;
+}
+
+.ql-snow .ql-toolbar button:hover {
+    background: rgba(0, 229, 225, 0.08);
+}
+
+.ql-snow .ql-toolbar button.ql-active {
+    background: rgba(0, 229, 225, 0.15);
+}
+
+.ql-snow .ql-toolbar button.ql-active .ql-stroke {
+    stroke: rgb(0, 229, 225);
+}
+
+.ql-snow .ql-toolbar button.ql-active .ql-fill {
+    fill: rgb(0, 229, 225);
+}
+
+.ql-snow .ql-toolbar button:hover .ql-stroke {
+    stroke: rgb(0, 229, 225);
+}
+
+.ql-snow .ql-toolbar button:hover .ql-fill {
+    fill: rgb(0, 229, 225);
+}
+
+/* Picker Styles */
+.ql-snow .ql-picker {
+    transition: all 0.2s ease;
+}
+
+.ql-snow .ql-picker:hover .ql-picker-label {
+    color: rgb(0, 229, 225);
+}
+
+.ql-snow .ql-picker-options {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(0, 229, 225, 0.3);
+}
+
+.ql-snow .ql-picker-item {
+    color: #2d2a26;
+}
+
+.ql-snow .ql-picker-item:hover {
+    background: rgba(251, 254, 254, 0.874);
+}
+
+.ql-snow .ql-picker-item.ql-selected {
+    color: rgb(0, 229, 225);
+}
+
+/* Toolbar Button Tooltips - Only show on hover */
+.ql-snow .ql-toolbar button {
+    position: relative;
+}
+
+.ql-snow .ql-toolbar button:hover::before {
+    content: attr(title);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(15, 14, 13, 0.95);
+    color: #e8e8e8;
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* Picker Tooltips - Only show on hover */
+.ql-snow .ql-picker {
+    position: relative;
+}
+
+.ql-snow .ql-picker:hover::before {
+    content: attr(title);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(15, 14, 13, 0.95);
+    color: #e8e8e8;
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* Tooltip for Link/Image Inputs */
+.ql-snow .ql-tooltip {
+    background: rgba(15, 14, 13, 0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(0, 229, 225, 0.3);
+    color: #e8e8e8;
+}
+
+/* Hide inline tooltips that show button names */
+.ql-snow .ql-tooltip:not(.ql-editing):not(.ql-hidden) {
+    visibility: hidden;
+}
+
+.ql-snow .ql-tooltip.ql-editing {
+    visibility: visible;
+}
+
+.ql-snow .ql-tooltip input[type=text] {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(0, 229, 225, 0.2);
+    color: #e8e8e8;
+}
+
+.ql-snow .ql-tooltip a.ql-action::after,
+.ql-snow .ql-tooltip a.ql-remove::before {
+    color: rgb(0, 229, 225);
+}
+
+/* Editor Content Styling */
+.ql-editor strong,
+.ql-editor em,
+.ql-editor u,
+.ql-editor s,
+.ql-editor a,
+.ql-editor h1,
+.ql-editor h2,
+.ql-editor h3,
+.ql-editor h4,
+.ql-editor h5,
+.ql-editor h6,
+.ql-editor blockquote,
+.ql-editor code,
+.ql-editor pre {
+    color: white;
+}
+
+.ql-editor a {
+    color: rgb(0, 229, 225);
+    text-decoration: underline;
+}
+
+.ql-editor blockquote {
+    border-left: 4px solid rgba(0, 229, 225, 0.5);
+    padding-left: 1rem;
+    margin-left: 0;
+    font-style: italic;
+}
+
+/* Code Block Styling */
+.ql-editor pre.ql-syntax {
+    background: #282c34;
+    color: #abb2bf;
+    overflow: auto;
+    padding: 1rem;
+    border-radius: 6px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 1rem 0;
+}
+
+/* Inline Code Styling */
+.ql-editor code {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: 'Courier New', Courier, monospace;
+}

@@ -1,0 +1,106 @@
+/* Admin Buttons Styling */
+
+/* Primary Button */
+.btn-primary {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: rgb(0, 229, 225);
+    color: #0f0e0d;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 229, 225, 0.3);
+    letter-spacing: 0.02em;
+}
+
+.btn-primary:hover {
+    background: #00ffff;
+    box-shadow: 0 6px 20px rgba(0, 229, 225, 0.5);
+    transform: translateY(-2px);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 229, 225, 0.4);
+}
+
+.btn-primary:disabled {
+    background: rgba(255, 255, 255, 0.2);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Secondary Button */
+.btn-secondary {
+    padding: 1rem 1.5rem;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgb(0, 229, 225);
+    border: 1px solid rgba(0, 229, 225, 0.4);
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.02em;
+}
+
+.btn-secondary:hover {
+    background: rgba(0, 229, 225, 0.1);
+    border-color: rgb(0, 229, 225);
+    box-shadow: 0 4px 12px rgba(0, 229, 225, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Back Link Button */
+.back-link {
+    color: rgb(0, 229, 225, 0.8);
+    display: block;
+    text-align: center;
+    margin-top: 1.5rem;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.back-link:hover {
+    color: #00ffff;
+    text-shadow: 0 0 10px rgba(0, 229, 225, 0.5);
+}
+
+/* Admin Post Item Buttons */
+.admin-post-item button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.admin-post-item .edit-btn {
+    background: rgb(0, 229, 225, 0.8);
+    color: #0f0e0d;
+}
+
+.admin-post-item .edit-btn:hover {
+    background: #00ffff;
+    box-shadow: 0 0 10px rgba(0, 229, 225, 0.5);
+}
+
+.admin-post-item .delete-btn {
+    background: #d77a52;
+    color: white;
+}
+
+.admin-post-item .delete-btn:hover {
+    background: #c17e5f;
+}
+
+/* Form-Specific Button Overrides */
+#new-post-form .btn-primary {
+    width: auto;
+    margin-right: 1rem;
+}

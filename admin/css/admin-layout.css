@@ -1,0 +1,145 @@
+/* Admin Layout and Container Styles - NYC Cyberpunk Theme */
+
+/* Global Body Override */
+body {
+    color: #e8e8e8;
+}
+
+/* Main Admin Container */
+.admin-container {
+    min-height: 100vh;
+    background-image: url(../../pics/NYC\ skyline.jpg);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    padding: 2rem;
+}
+
+/* Login Card */
+.admin-login-card {
+    max-width: 400px;
+    margin: 5rem auto;
+    background: rgba(15, 14, 13, 0.6);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+    border: 1px solid rgba(0, 229, 225, 0.3);
+}
+
+.admin-login-card h1 {
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: 1.75rem;
+}
+
+/* Admin Panel Layout */
+.admin-panel {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Admin Header */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(15, 14, 13, 0.6);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+    border: 1px solid rgba(0, 229, 225, 0.3);
+}
+
+.admin-header h1 {
+    margin: 0;
+}
+
+/* Admin Content Grid */
+.admin-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+/* Content Sections */
+.add-post-section,
+.manage-posts-section {
+    background: rgba(15, 14, 13, 0.65);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(0, 229, 225, 0.25);
+    min-width: 0;
+    overflow: hidden;
+}
+
+.add-post-section h2,
+.manage-posts-section h2 {
+    margin-top: 0;
+    margin-bottom: 2rem;
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+/* Admin Posts List */
+#admin-posts-list {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+/* Admin Post Item */
+.admin-post-item {
+    padding: 1rem;
+    border: 1px solid rgba(0, 229, 225, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    transition: all 0.3s;
+}
+
+.admin-post-item:hover {
+    box-shadow: 0 4px 16px rgba(0, 229, 225, 0.3);
+    border-color: rgba(0, 229, 225, 0.5);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.admin-post-item h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.admin-post-item .post-meta {
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+}
+
+.admin-post-item .post-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .admin-content {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .admin-login-card {
+        margin: 2rem auto;
+    }
+}

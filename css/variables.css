@@ -16,6 +16,9 @@
     --background-title: #fd43d8;   /* Vibrant title bg */
     --background-subtle-pink: rgb(253, 67, 216, 0.15);
     --background-dark-glass: rgba(15, 14, 13, 0.6); /* Dark glass effect */
+    --background-medium-glass: rgba(15, 14, 13, 0.3); /* Medium glass effect */
+    --background-eggshell: #f7f4ee; /* Eggshell */
+    --background-reading: rgba(250, 248, 245, 0.85); /* Soft warm reading background with glass effect */
     --background-charcoal: #1a1816; /* Charcoal gray */
 
     /* Accents */

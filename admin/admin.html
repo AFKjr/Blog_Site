@@ -5,10 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - My JavaScript Journey</title>
     <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="admin-styles.css">
-    
+
+    <!-- Modular Admin Stylesheets -->
+    <link rel="stylesheet" href="css/admin-layout.css">
+    <link rel="stylesheet" href="css/admin-forms.css">
+    <link rel="stylesheet" href="css/admin-buttons.css">
+    <link rel="stylesheet" href="css/quill-editor.css">
+
     <!-- Include Quill stylesheet -->
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+
+    <!-- Include highlight.js for syntax highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
 </head>
 <body>
     <div class="admin-container">
@@ -98,34 +107,77 @@
     <script>
         let quillNewPost = null;
         let quillEditPost = null;
-        
+
+        // Configure Quill toolbar with all options
+        const toolbarOptions = [
+            [{ 'header': [1, 2, 3, false] }],                         // Headers
+            ['bold', 'italic', 'underline', 'strike'],                 // Text formatting
+            [{ 'color': [] }, { 'background': [] }],                   // Color and background
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],              // Lists
+            [{ 'align': [] }],                                         // Text alignment
+            ['blockquote', 'code-block'],                              // Blockquote and code block
+            ['link', 'image'],                                         // Links and images
+            ['clean']                                                  // Remove formatting
+        ];
+
+        // Quill configuration object
+        const quillConfig = {
+            theme: 'snow',
+            modules: {
+                syntax: true,  // Enable syntax highlighting
+                toolbar: {
+                    container: toolbarOptions,
+                    handlers: {
+                        // Custom handlers can be added here if needed
+                    }
+                }
+            },
+            placeholder: 'Write your post content here...'
+        };
+
+        const quillEditConfig = {
+            theme: 'snow',
+            modules: {
+                syntax: true,
+                toolbar: {
+                    container: toolbarOptions
+                }
+            },
+            placeholder: 'Edit your post content here...'
+        };
+
         // Initialize Quill editors when admin panel is visible
         document.addEventListener('DOMContentLoaded', function() {
+            // Enable syntax highlighting globally
+            if (window.hljs) {
+                hljs.configure({
+                    languages: ['javascript', 'python', 'java', 'html', 'css', 'sql', 'bash', 'json', 'xml']
+                });
+            }
+
             const adminPanel = document.getElementById('admin-panel');
             const observer = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     if (mutation.attributeName === 'style' && adminPanel.style.display !== 'none') {
                         if (!quillNewPost) {
-                            quillNewPost = new Quill('#post-content', {
-                                theme: 'snow',
-                                placeholder: 'Write your post content here...'
-                            });
+                            quillNewPost = new Quill('#post-content', quillConfig);
+                            // Make it globally accessible
+                            window.quillNewPost = quillNewPost;
                         }
                     }
                 });
             });
             observer.observe(adminPanel, { attributes: true });
-            
+
             // Initialize edit modal Quill editor
             const editModal = document.getElementById('edit-modal');
             const editObserver = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     if (mutation.attributeName === 'style' && editModal.style.display !== 'none' && editModal.style.display !== '') {
                         if (!quillEditPost) {
-                            quillEditPost = new Quill('#edit-post-content', {
-                                theme: 'snow',
-                                placeholder: 'Edit your post content here...'
-                            });
+                            quillEditPost = new Quill('#edit-post-content', quillEditConfig);
+                            // Make it globally accessible
+                            window.quillEditPost = quillEditPost;
                         }
                     }
                 });
