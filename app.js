@@ -33,7 +33,7 @@ function daysSinceStart()
 function displayDaysSinceStart() 
 {
     const days = daysSinceStart();
-    const daysDisplayed = "It has been " + days + " day" + (days !== 1 ? "s" : "") + " since I started learning Javascript!";
+    const daysDisplayed = "It has been " + days + " day" + (days !== 1 ? "s" : "") + " since I started learning web development!";
     const daysDiv = document.getElementById("days");
     if (daysDiv) 
     {
