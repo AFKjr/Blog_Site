@@ -1,9 +1,9 @@
 // Input validation and sanitization utilities
 
-const INPUT_LIMITS = 
+const INPUT_LIMITS =
 {
     TITLE_MAX_LENGTH: 200,
-    CONTENT_MAX_LENGTH: 20000,
+    CONTENT_MAX_LENGTH: Infinity, // Unlimited
     TITLE_MIN_LENGTH: 3,
     CONTENT_MIN_LENGTH: 10
 };
@@ -63,15 +63,12 @@ function validateContent(content)
         errors.push('Content is required');
     }
     
-    if (content.trim().length < INPUT_LIMITS.CONTENT_MIN_LENGTH) 
+    if (content.trim().length < INPUT_LIMITS.CONTENT_MIN_LENGTH)
     {
         errors.push(`Content must be at least ${INPUT_LIMITS.CONTENT_MIN_LENGTH} characters`);
     }
-    
-    if (content.length > INPUT_LIMITS.CONTENT_MAX_LENGTH) 
-    {
-        errors.push(`Content cannot exceed ${INPUT_LIMITS.CONTENT_MAX_LENGTH} characters`);
-    }
+
+    // No maximum length limit for content
     
     return {
         isValid: errors.length === 0,
@@ -128,19 +125,25 @@ function updateCharacterCount(inputId, countId, maxLength)
             }
         }
 
-        counter.textContent = `${currentLength} / ${maxLength}`;
-
-        if (currentLength > maxLength * 0.9)
-        {
-            counter.style.color = '#e53e3e';
-        }
-        else if (currentLength > maxLength * 0.75)
-        {
-            counter.style.color = '#ed8936';
-        }
-        else
-        {
+        // Display differently for unlimited content
+        if (maxLength === Infinity) {
+            counter.textContent = `${currentLength} characters`;
             counter.style.color = '#718096';
+        } else {
+            counter.textContent = `${currentLength} / ${maxLength}`;
+
+            if (currentLength > maxLength * 0.9)
+            {
+                counter.style.color = '#e53e3e';
+            }
+            else if (currentLength > maxLength * 0.75)
+            {
+                counter.style.color = '#ed8936';
+            }
+            else
+            {
+                counter.style.color = '#718096';
+            }
         }
     };
     
