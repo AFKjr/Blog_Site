@@ -108,32 +108,35 @@ function updateCharacterCount(inputId, countId, maxLength)
     
     if (!element || !counter) return;
     
-    const updateCount = () => 
+    const updateCount = () =>
     {
         let currentLength = 0;
-        
+
+        // Verify element still exists and is accessible
+        if (!element || !counter) return;
+
         // Check if it's a regular input (like title field)
         if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
             currentLength = element.value ? element.value.length : 0;
         } else {
             // It's a Quill editor container - get text length from editor
             const quillEditor = element.querySelector('.ql-editor');
-            if (quillEditor) {
+            if (quillEditor && quillEditor.textContent) {
                 currentLength = quillEditor.textContent.length;
             }
         }
-        
+
         counter.textContent = `${currentLength} / ${maxLength}`;
-        
-        if (currentLength > maxLength * 0.9) 
+
+        if (currentLength > maxLength * 0.9)
         {
             counter.style.color = '#e53e3e';
-        } 
-        else if (currentLength > maxLength * 0.75) 
+        }
+        else if (currentLength > maxLength * 0.75)
         {
             counter.style.color = '#ed8936';
-        } 
-        else 
+        }
+        else
         {
             counter.style.color = '#718096';
         }
